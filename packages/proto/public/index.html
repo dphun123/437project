@@ -8,13 +8,15 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/reset.css" />
+    <link rel="stylesheet" href="/styles/tokens.css" />
     <link rel="stylesheet" href="/styles/page.css" />
+    <link rel="stylesheet" href="/styles/log.css" />
   </head>
-  <body>
+  <body class="page">
     <header>
       <h1>PPL Routine</h1>
-      <a href="/user/dennis.html">Dennis</a>' Workout Log
+      <p><a href="/user/dennis.html">Dennis</a>' Workout Log</p>
     </header>
     <section class="log">
       <section class="workout">
@@ -24,51 +26,39 @@
             <use href="/icons/workouts.svg#icon-legs" />
           </svg>
         </h2>
-        <section class="exercise">
-          <ul>
-            <li>
-              <dl>
-                <dt><a href="/exercise/squat.html">Squat</a></dt>
-                <dd><a href="/entry/example.html">Entry #1</a></dd>
-                <dd><a href="/entry/example.html">Entry #2</a></dd>
-                <dd><a href="/entry/example.html">Entry #3</a></dd>
-              </dl>
-            </li>
-            <li>
-              <dl>
-                <dt><a href="/exercise/leg_press.html">Leg Press</a></dt>
-                <dd><a href="/entry/example.html">Entry #1</a></dd>
-                <dd><a href="/entry/example.html">Entry #2</a></dd>
-                <dd><a href="/entry/example.html">Entry #3</a></dd>
-              </dl>
-            </li>
-            <li>
-              <dl>
-                <dt><a href="/exercise/ghr.html">Glute-Ham Raise</a></dt>
-                <dd><a href="/entry/example.html">Entry #1</a></dd>
-                <dd><a href="/entry/example.html">Entry #2</a></dd>
-                <dd><a href="/entry/example.html">Entry #3</a></dd>
-              </dl>
-            </li>
-            <li>
-              <dl>
-                <dt>
-                  <a href="/exercise/leg_extension.html">Leg Extension</a>
-                </dt>
-                <dd><a href="/entry/example.html">Entry #1</a></dd>
-                <dd><a href="/entry/example.html">Entry #2</a></dd>
-                <dd><a href="/entry/example.html">Entry #3</a></dd>
-              </dl>
-            </li>
-            <li>
-              <dl>
-                <dt><a href="/exercise/leg_curl.html">Leg Curl</a></dt>
-                <dd><a href="/entry/example.html">Entry #1</a></dd>
-                <dd><a href="/entry/example.html">Entry #2</a></dd>
-                <dd><a href="/entry/example.html">Entry #3</a></dd>
-              </dl>
-            </li>
-          </ul>
+        <section class="exercises">
+          <dl>
+            <section class="exercise">
+              <dt><a href="/exercise/squat.html">Squat</a></dt>
+              <dd><a href="/entry/example.html">Entry #1</a></dd>
+              <dd><a href="/entry/example.html">Entry #2</a></dd>
+              <dd><a href="/entry/example.html">Entry #3</a></dd>
+            </section>
+            <section class="exercise">
+              <dt><a href="/exercise/leg_press.html">Leg Press</a></dt>
+              <dd><a href="/entry/example.html">Entry #1</a></dd>
+              <dd><a href="/entry/example.html">Entry #2</a></dd>
+              <dd><a href="/entry/example.html">Entry #3</a></dd>
+            </section>
+            <section class="exercise">
+              <dt><a href="/exercise/ghr.html">Glute-Ham Raise</a></dt>
+              <dd><a href="/entry/example.html">Entry #1</a></dd>
+              <dd><a href="/entry/example.html">Entry #2</a></dd>
+              <dd><a href="/entry/example.html">Entry #3</a></dd>
+            </section>
+            <section class="exercise">
+              <dt><a href="/exercise/leg_extension.html">Leg Extension</a></dt>
+              <dd><a href="/entry/example.html">Entry #1</a></dd>
+              <dd><a href="/entry/example.html">Entry #2</a></dd>
+              <dd><a href="/entry/example.html">Entry #3</a></dd>
+            </section>
+            <section class="exercise">
+              <dt><a href="/exercise/leg_curl.html">Leg Curl</a></dt>
+              <dd><a href="/entry/example.html">Entry #1</a></dd>
+              <dd><a href="/entry/example.html">Entry #2</a></dd>
+              <dd><a href="/entry/example.html">Entry #3</a></dd>
+            </section>
+          </dl>
         </section>
       </section>
       <section class="workout">
@@ -78,25 +68,21 @@
             <use href="/icons/workouts.svg#icon-push" />
           </svg>
         </h2>
-        <section class="exercise">
-          <ul>
-            <li>
-              <dl>
-                <dt><a href="/exercise/bench_press.html">Bench Press</a></dt>
-                <dd><a href="/entry/example.html">Entry #1</a></dd>
-                <dd><a href="/entry/example.html">Entry #2</a></dd>
-                <dd><a href="/entry/example.html">Entry #3</a></dd>
-              </dl>
-            </li>
-            <li>
-              <dl>
-                <dt><a href="/exercise/exercise.html">Exercise #2</a></dt>
-                <dd><a href="/entry/example.html">Entry #1</a></dd>
-                <dd><a href="/entry/example.html">Entry #2</a></dd>
-                <dd><a href="/entry/example.html">Entry #3</a></dd>
-              </dl>
-            </li>
-          </ul>
+        <section class="exercises">
+          <dl>
+            <section class="exercise">
+              <dt><a href="/exercise/bench_press.html">Bench Press</a></dt>
+              <dd><a href="/entry/example.html">Entry #1</a></dd>
+              <dd><a href="/entry/example.html">Entry #2</a></dd>
+              <dd><a href="/entry/example.html">Entry #3</a></dd>
+            </section>
+            <section class="exercise">
+              <dt><a href="/exercise/exercise.html">Exercise #2</a></dt>
+              <dd><a href="/entry/example.html">Entry #1</a></dd>
+              <dd><a href="/entry/example.html">Entry #2</a></dd>
+              <dd><a href="/entry/example.html">Entry #3</a></dd>
+            </section>
+          </dl>
         </section>
       </section>
       <section class="workout">
@@ -106,25 +92,21 @@
             <use href="/icons/workouts.svg#icon-pull" />
           </svg>
         </h2>
-        <section class="exercise">
-          <ul>
-            <li>
-              <dl>
-                <dt><a href="/exercise/pull-up.html">Pull-up</a></dt>
-                <dd><a href="/entry/example.html">Entry #1</a></dd>
-                <dd><a href="/entry/example.html">Entry #2</a></dd>
-                <dd><a href="/entry/example.html">Entry #3</a></dd>
-              </dl>
-            </li>
-            <li>
-              <dl>
-                <dt><a href="/exercise/exercise.html">Exercise #2</a></dt>
-                <dd><a href="/entry/example.html">Entry #1</a></dd>
-                <dd><a href="/entry/example.html">Entry #2</a></dd>
-                <dd><a href="/entry/example.html">Entry #3</a></dd>
-              </dl>
-            </li>
-          </ul>
+        <section class="exercises">
+          <dl>
+            <section class="exercise">
+              <dt><a href="/exercise/pull-up.html">Pull-up</a></dt>
+              <dd><a href="/entry/example.html">Entry #1</a></dd>
+              <dd><a href="/entry/example.html">Entry #2</a></dd>
+              <dd><a href="/entry/example.html">Entry #3</a></dd>
+            </section>
+            <section class="exercise">
+              <dt><a href="/exercise/exercise.html">Exercise #2</a></dt>
+              <dd><a href="/entry/example.html">Entry #1</a></dd>
+              <dd><a href="/entry/example.html">Entry #2</a></dd>
+              <dd><a href="/entry/example.html">Entry #3</a></dd>
+            </section>
+          </dl>
         </section>
       </section>
     </section>

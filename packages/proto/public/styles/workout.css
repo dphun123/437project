@@ -1,0 +1,24 @@
+.page {
+  --exercise-grids: 5;
+
+  > .workout {
+    > h1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    > .exercises {
+      display: grid;
+      grid-template-columns: repeat(var(--exercise-grids), 1fr);
+      > .exercise {
+        border: var(--size-border) solid var(--color-accent);
+        border-top: none;
+        padding: var(--size-spacing-medium);
+      }
+      :not(:first-child) {
+        border-left: none;
+      }
+    }
+  }
+}

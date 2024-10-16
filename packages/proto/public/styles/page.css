@@ -8,14 +8,27 @@ body {
 }
 header,
 h1:not(header h1),
-h2:not(header h1),
-h3:not(header h1) {
+h2:not(header h2),
+h3:not(header h3) {
   background-color: var(--color-background-header);
   border: var(--size-border) solid var(--color-accent);
   color: var(--color-text);
   font-family: var(--font-family-display);
   font-weight: var(--font-weight-bold);
   line-height: var(--font-line-height-display);
+}
+header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: var(--size-spacing-medium);
+}
+.page > section {
+  margin: 0 var(--size-spacing-large) var(--size-spacing-large)
+    var(--size-spacing-large);
+}
+.page > header {
+  margin-bottom: var(--size-spacing-large);
 }
 h1 {
   font-size: var(--size-type-xxlarge);
@@ -40,8 +53,8 @@ dt {
 }
 svg.icon {
   display: inline;
-  height: 2em;
-  width: 2em;
+  height: 1.9em;
+  width: 1.9em;
   vertical-align: middle;
   fill: currentColor;
 }
