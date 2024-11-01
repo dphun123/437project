@@ -31,26 +31,13 @@
     display: grid;
     grid-template-columns: [start] repeat(var(--page-grids), 1fr) [end];
 
-    .exercise {
+    > exercise-entries {
       border: var(--size-border) solid var(--color-accent);
       border-top: none;
       padding: var(--size-spacing-medium);
-
-      --page-grids: 2;
-
-      display: grid;
-      grid-template-columns: [start] repeat(var(--page-grids), 1fr) [end];
-
-      > dt {
-        grid-column: start / end;
-      }
-      > dd {
-        grid-column: auto / span 1;
-      }
     }
-
-    :nth-child(even) {
-      border-left: none;
-    }
+  }
+  :nth-child(even) {
+    border-left: none;
   }
 }

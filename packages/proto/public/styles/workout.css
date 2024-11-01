@@ -11,7 +11,7 @@
     > .exercises {
       display: grid;
       grid-template-columns: repeat(var(--exercise-grids), 1fr);
-      > .exercise {
+      > exercise-entries {
         border: var(--size-border) solid var(--color-accent);
         border-top: none;
         padding: var(--size-spacing-medium);
