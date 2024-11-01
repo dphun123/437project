@@ -22,19 +22,25 @@
     <script type="module">
       import { define } from "@calpoly/mustang";
       import { ExerciseEntriesElement } from "/scripts/exercise-entries.js";
+      import { HeaderElement } from "/scripts/header.js";
 
       define({
         "exercise-entries": ExerciseEntriesElement,
+        "my-header": HeaderElement,
       });
 
-      ExerciseEntriesElement.initializeOnce();
+      HeaderElement.initializeOnce();
     </script>
   </head>
-  <body class="page">
-    <header>
-      <h1>PPL Routine</h1>
-      <p><a href="/user/dennis.html">Dennis</a>' Workout Log</p>
-    </header>
+  <body class="page-grid">
+    <my-header>
+      <span slot="left">
+        <h1>PPL Routine</h1>
+      </span>
+      <span slot="right">
+        <p><a href="/user/dennis.html">Dennis</a>' Workout Log</p>
+      </span>
+    </my-header>
     <section class="log">
       <section class="workout">
         <h2>

@@ -6,10 +6,9 @@ body {
   line-height: var(--font-line-height-body);
   font-size: var(--size-type-body);
 }
-header,
-h1:not(header h1),
-h2:not(header h2),
-h3:not(header h3) {
+h1:not(my-header h1),
+h2:not(my-header h2),
+h3:not(my-header h3) {
   background-color: var(--color-background-header);
   border: var(--size-border) solid var(--color-accent);
   color: var(--color-text);
@@ -17,18 +16,10 @@ h3:not(header h3) {
   font-weight: var(--font-weight-bold);
   line-height: var(--font-line-height-display);
 }
-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  padding: var(--size-spacing-medium);
-}
-.page > section {
+.page > section,
+.page-grid > section {
   margin: 0 var(--size-spacing-large) var(--size-spacing-large)
     var(--size-spacing-large);
-}
-.page > header {
-  margin-bottom: var(--size-spacing-large);
 }
 h1 {
   font-size: var(--size-type-xxlarge);

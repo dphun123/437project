@@ -1,4 +1,4 @@
-.page {
+.page-grid {
   --page-grids: 3;
 
   display: grid;

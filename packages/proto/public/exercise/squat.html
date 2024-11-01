@@ -15,16 +15,22 @@
     <script type="module">
       import { define } from "@calpoly/mustang";
       import { ExerciseInfoElement } from "/scripts/exercise-info.js";
+      import { HeaderElement } from "/scripts/header.js";
 
       define({
         "exercise-info": ExerciseInfoElement,
+        "my-header": HeaderElement,
       });
+
+      HeaderElement.initializeOnce();
     </script>
   </head>
-  <body class="page">
-    <header>
-      <a href="/workout/legs.html">&larr; Legs Workout</a>
-    </header>
+  <body class="page-grid">
+    <my-header>
+      <span slot="left">
+        <a href="/workout/legs.html">&larr; Legs Workout</a>
+      </span>
+    </my-header>
     <exercise-info>
       <span slot="name">Barbell Squat</span>
       <span slot="description">

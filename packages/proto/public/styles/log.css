@@ -1,13 +1,10 @@
-.page {
+.page-grid {
   --page-grids: 3;
 
   display: grid;
   grid-template-columns: [start] repeat(var(--page-grids), 1fr) [end];
   column-gap: var(--size-spacing-medium);
 
-  > header {
-    grid-column: start / end;
-  }
   > section {
     grid-column: start / end;
 
