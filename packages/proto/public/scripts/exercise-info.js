@@ -10,7 +10,13 @@ export class ExerciseInfoElement extends HTMLElement {
       </section>
       <section class="instruction">
         <h2>Instructions</h2>
-        <slot name="instructions">No instructions found.</slot>
+        <slot name="instructions">No instructions found.</slot> <br />
+        <p>
+          <b>Type:</b> <slot name="type">N/A</slot> <br />
+          <b>Mechanic:</b> <slot name="mechanic">N/A</slot> <br />
+          <b>Main muscles targeted:</b> <slot name="muscles">N/A</slot> <br />
+          <b>Level:</b> <slot name="level">N/A</slot>
+        </p>
       </section>
       <section class="images">
         <slot name="images"></slot>
@@ -44,6 +50,10 @@ export class ExerciseInfoElement extends HTMLElement {
       margin: 0 var(--size-spacing-large) var(--size-spacing-large)
         var(--size-spacing-large);
     }
+    p {
+      margin: 0 var(--size-spacing-large) var(--size-spacing-large)
+        var(--size-spacing-large);
+    }
     img {
       border: var(--size-border) solid var(--color-accent);
       border-radius: var(--size-radius-medium);
@@ -59,10 +69,6 @@ export class ExerciseInfoElement extends HTMLElement {
         justify-content: center;
         align-content: center;
         padding: var(--size-spacing-medium);
-      }
-      > p {
-        margin: 0 var(--size-spacing-large) var(--size-spacing-large)
-          var(--size-spacing-large);
       }
     }
 
