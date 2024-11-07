@@ -1,4 +1,5 @@
 export interface ExerciseInfo {
+  ref: string;
   name: string;
   description: string;
   muscles: MuscleType[];

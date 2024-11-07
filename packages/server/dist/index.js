@@ -23,7 +23,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var import_express = __toESM(require("express"));
 var import_exercise_info = require("./pages/exercise-info");
-var import_exercise_info_svc = require("./services/exercise-info-svc");
+var import_exercise_info_svc = __toESM(require("./services/exercise-info-svc"));
 var import_mongo = require("./services/mongo");
 (0, import_mongo.connect)("exercise-log");
 const app = (0, import_express.default)();
@@ -32,10 +32,13 @@ const staticDir = process.env.STATIC || "public";
 app.use(import_express.default.static(staticDir));
 app.get("/exercise/:name", (req, res) => {
   const { name } = req.params;
-  const data = (0, import_exercise_info_svc.getExerciseInfo)(name);
-  const page = new import_exercise_info.ExerciseInfoPage(data);
-  console.log(page);
-  res.set("Content-Type", "text/html").send(page.render());
+  import_exercise_info_svc.default.get(name).then((data) => {
+    if (!data) {
+      return res.status(404).send(`Exercise '${name}' not found.`);
+    }
+    const page = new import_exercise_info.ExerciseInfoPage(data);
+    res.set("Content-Type", "text/html").send(page.render());
+  });
 });
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
