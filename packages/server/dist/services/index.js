@@ -13,12 +13,12 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __reExport = (target, mod, secondTarget) => (__copyProps(target, mod, "default"), secondTarget && __copyProps(secondTarget, mod, "default"));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var models_exports = {};
-module.exports = __toCommonJS(models_exports);
-__reExport(models_exports, require("./exercise-info"), module.exports);
-__reExport(models_exports, require("./entry"), module.exports);
+var services_exports = {};
+module.exports = __toCommonJS(services_exports);
+__reExport(services_exports, require("./exercise-info-svc"), module.exports);
+__reExport(services_exports, require("./entry-svc"), module.exports);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  ...require("./exercise-info"),
-  ...require("./entry")
+  ...require("./exercise-info-svc"),
+  ...require("./entry-svc")
 });

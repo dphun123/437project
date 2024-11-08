@@ -1,26 +1,24 @@
 import express, { Request, Response } from "express";
-import { ExerciseInfoPage } from "./pages/exercise-info";
-import ExerciseInfo from "./services/exercise-info-svc";
 import { connect } from "./services/mongo";
+import { LogPage } from "./pages";
+import entries from "./routes/entries";
+import exerciseInfo from "./routes/exercise-info";
 
 connect("exercise-log");
 
 const app = express();
 const port = process.env.PORT || 3000;
 const staticDir = process.env.STATIC || "public";
-
 app.use(express.static(staticDir));
 
-app.get("/exercise/:name", (req: Request, res: Response) => {
-  const { name } = req.params;
+app.use(express.json());
 
-  ExerciseInfo.get(name).then((data) => {
-    if (!data) {
-      return res.status(404).send(`Exercise '${name}' not found.`);
-    }
-    const page = new ExerciseInfoPage(data);
-    res.set("Content-Type", "text/html").send(page.render());
-  });
+app.use("/api/entry", entries);
+app.use("/api/exercise", exerciseInfo);
+
+app.get("/hi", (req: Request, res: Response) => {
+  const page = new LogPage([]);
+  res.set("Content-Type", "text/html").send(page.render());
 });
 
 app.listen(port, () => {

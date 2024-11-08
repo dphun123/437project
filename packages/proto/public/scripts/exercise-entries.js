@@ -8,9 +8,9 @@ export class ExerciseEntriesElement extends HTMLElement {
         <dt>
           <a href="/exercise/exercise.html"><slot>Exercise</slot></a>
         </dt>
-        <dd><a href="/entry/example.html">Entry #1</a></dd>
-        <dd><a href="/entry/example.html">Entry #2</a></dd>
-        <dd><a href="/entry/example.html">Entry #3</a></dd>
+        <slot name="entries">
+          <dd>No entries yet</dd>
+        </slot>
       </section>
     </template>
   `;
@@ -42,6 +42,12 @@ export class ExerciseEntriesElement extends HTMLElement {
     return this.getAttribute("link") || "exercise";
   }
 
+  get entries() {
+    return this.getAttribute("entries")
+      ? JSON.parse(this.getAttribute("entries"))
+      : [];
+  }
+
   constructor() {
     super();
     shadow(this)
@@ -54,5 +60,21 @@ export class ExerciseEntriesElement extends HTMLElement {
       const exercise = this.shadowRoot.querySelector("dt a");
       exercise.href = `/exercise/${this.link}.html`;
     }
+
+    const entriesSlot = template.querySelector('slot[name="entries"]');
+    if (entries.length > 0) {
+      const entryList = entries.map((entry, index) => {
+        const dd = document.createElement("dd");
+        const a = document.createElement("a");
+        a.href = `/entry/${entry.id}.html`;
+        a.textContent = `Entry #${index + 1} - ${new Date(
+          entry.date_added
+        ).toLocaleDateString()}`;
+        dd.appendChild(a);
+        return dd;
+      });
+    }
+    entriesSlot.innerHTML = "";
+    entryList.forEach((entry) => entriesSlot.appendChild(entry));
   }
 }
