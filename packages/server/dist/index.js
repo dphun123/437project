@@ -35,7 +35,7 @@ app.use(import_express.default.static(staticDir));
 app.use(import_express.default.json());
 app.use("/api/entry", import_entries.default);
 app.use("/api/exercise", import_exercise_info.default);
-app.get("/hi", (req, res) => {
+app.get("/", (req, res) => {
   const page = new import_pages.LogPage([]);
   res.set("Content-Type", "text/html").send(page.render());
 });

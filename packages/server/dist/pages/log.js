@@ -93,17 +93,19 @@ class LogPage {
         </h2>
         <section class="exercises">
           <dl>
-            ${exercises.map((exercise) => this.renderExerciseEntries(exercise))}
+            ${exercises.map(
+      (exercise) => import_server.html`
+                  <exercise-entries
+                    src="/api/entry/${exercise.link}"
+                    link=${exercise.link}
+                  >
+                    ${exercise.name}
+                  </exercise-entries>
+                `
+    )}
           </dl>
         </section>
       </section>
-    `;
-  }
-  renderExerciseEntries(exercise) {
-    return import_server.html`
-      <exercise-entries link="${exercise.link}">
-        ${exercise.name}
-      </exercise-entries>
     `;
   }
 }

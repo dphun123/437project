@@ -18,7 +18,17 @@ app.use(express.json());
 app.use("/api/entry", entries);
 app.use("/api/exercise", exerciseInfo);
 
-app.get("/hi", (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response) => {
+  // const user = "Dennis";
+  // Exercises.get(user).then((data) => {
+  //   if (!data) {
+  //     const page = new LogPage([]);
+  //     res.set("Content-Type", "text/html").send(page.render());
+  //   } else {
+  //     const page = new LogPage(data);
+  //     res.set("Content-Type", "text/html").send(page.render());
+  //   }
+  // });
   const page = new LogPage([]);
   res.set("Content-Type", "text/html").send(page.render());
 });

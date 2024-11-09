@@ -6,7 +6,7 @@ export class ExerciseEntriesElement extends HTMLElement {
     <template>
       <section class="exercise">
         <dt>
-          <a href="/exercise/exercise.html"><slot>Exercise</slot></a>
+          <a><slot>Exercise</slot></a>
         </dt>
         <slot name="entries">
           <dd>No entries yet</dd>
@@ -38,6 +38,10 @@ export class ExerciseEntriesElement extends HTMLElement {
     }
   `;
 
+  get src() {
+    return this.getAttribute("src");
+  }
+
   get link() {
     return this.getAttribute("link") || "exercise";
   }
@@ -56,25 +60,47 @@ export class ExerciseEntriesElement extends HTMLElement {
   }
 
   connectedCallback() {
+    if (this.src) this.hydrate(this.src);
+
     if (this.link) {
       const exercise = this.shadowRoot.querySelector("dt a");
-      exercise.href = `/exercise/${this.link}.html`;
+      exercise.href = `/exercise/${this.link}`;
     }
-
-    const entriesSlot = template.querySelector('slot[name="entries"]');
-    if (entries.length > 0) {
-      const entryList = entries.map((entry, index) => {
-        const dd = document.createElement("dd");
-        const a = document.createElement("a");
-        a.href = `/entry/${entry.id}.html`;
-        a.textContent = `Entry #${index + 1} - ${new Date(
-          entry.date_added
-        ).toLocaleDateString()}`;
-        dd.appendChild(a);
-        return dd;
-      });
-    }
-    entriesSlot.innerHTML = "";
-    entryList.forEach((entry) => entriesSlot.appendChild(entry));
   }
+
+  hydrate(url) {
+    fetch(url)
+      .then((res) => {
+        if (res.status !== 200) throw `Status: ${res.status}`;
+        return res.json();
+      })
+      .then((json) => this.renderSlots(json))
+      .catch((error) => console.log(`Failed to render data ${url}:`, error));
+  }
+
+  // TODO: figure out how to setup page to show these
+  // renderSlots(json) {
+  //   const entries = Object.entries(json);
+  //   const toSlot = ([key, value]) => html`<span slot="${key}">${value}</span>`;
+
+  //   const fragment = entries.map(toSlot);
+  //   this.replaceChildren(...fragment);
+  // }
 }
+
+// const entriesSlot = template.querySelector('slot[name="entries"]');
+// if (entries.length > 0) {
+//   const entryList = entries.map((entry, index) => {
+//     const dd = document.createElement("dd");
+//     const a = document.createElement("a");
+//     a.href = `/entry/${entry.id}.html`;
+//     a.textContent = `Entry #${index + 1} - ${new Date(
+//       entry.date_added
+//     ).toLocaleDateString()}`;
+//     dd.appendChild(a);
+//     return dd;
+//   });
+// }
+// entriesSlot.innerHTML = "";
+// entryList.forEach((entry) => entriesSlot.appendChild(entry));
+// }

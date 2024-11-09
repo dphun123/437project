@@ -70,27 +70,20 @@ export class LogPage {
         </h2>
         <section class="exercises">
           <dl>
-            ${exercises.map((exercise) => this.renderExerciseEntries(exercise))}
+            ${exercises.map(
+              (exercise) =>
+                html`
+                  <exercise-entries
+                    src="/api/entry/${exercise.link}"
+                    link=${exercise.link}
+                  >
+                    ${exercise.name}
+                  </exercise-entries>
+                `
+            )}
           </dl>
         </section>
       </section>
-    `;
-  }
-
-  renderExerciseEntries(exercise: { name: string; link: string }) {
-    // const {
-    //   _id,
-    //   exercise,
-    //   date_added,
-    //   sets,
-    //   comment,
-    //   last_modified,
-    // } = entry;
-
-    return html`
-      <exercise-entries link="${exercise.link}">
-        ${exercise.name}
-      </exercise-entries>
     `;
   }
 }
