@@ -1,4 +1,4 @@
-.page {
+.page-grid {
   --page-grids: 3;
 
   display: grid;
@@ -7,33 +7,5 @@
 
   > header {
     grid-column: start / end;
-  }
-
-  > .definition {
-    grid-column: start / end;
-    > h1 {
-      display: flex;
-      justify-content: center;
-      align-content: center;
-      padding: var(--size-spacing-medium);
-    }
-    > p {
-      margin: 0 var(--size-spacing-large) var(--size-spacing-large)
-        var(--size-spacing-large);
-    }
-  }
-
-  > .instruction {
-    grid-column: auto / span 2;
-    > h2 {
-      padding: var(--size-spacing-medium);
-    }
-  }
-}
-
-.definition,
-.instruction {
-  > * {
-    margin-bottom: var(--size-spacing-small);
   }
 }

@@ -4,10 +4,30 @@
     <link rel="stylesheet" href="/styles/reset.css" />
     <link rel="stylesheet" href="/styles/tokens.css" />
     <link rel="stylesheet" href="/styles/page.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+        }
+      }
+    </script>
+    <script type="module">
+      import { define } from "@calpoly/mustang";
+      import { HeaderElement } from "/scripts/header.js";
+
+      define({
+        "my-header": HeaderElement,
+      });
+
+      HeaderElement.initializeOnce();
+    </script>
   </head>
   <body class="page">
-    <header><a href="/index.html">&larr; Workout Log</a></header>
-
+    <my-header>
+      <span slot="left">
+        <a href="/index.html">&larr; Workout Log</a>
+      </span>
+    </my-header>
     <section>
       <h1>Dennis' Profile</h1>
       <dl>

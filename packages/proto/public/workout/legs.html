@@ -5,9 +5,32 @@
     <link rel="stylesheet" href="/styles/tokens.css" />
     <link rel="stylesheet" href="/styles/page.css" />
     <link rel="stylesheet" href="/styles/workout.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+        }
+      }
+    </script>
+    <script type="module">
+      import { define } from "@calpoly/mustang";
+      import { ExerciseEntriesElement } from "/scripts/exercise-entries.js";
+      import { HeaderElement } from "/scripts/header.js";
+
+      define({
+        "exercise-entries": ExerciseEntriesElement,
+        "my-header": HeaderElement,
+      });
+
+      HeaderElement.initializeOnce();
+    </script>
   </head>
   <body class="page">
-    <header><a href="/index.html">&larr; Workout Log</a></header>
+    <my-header>
+      <span slot="left">
+        <a href="/index.html">&larr; Workout Log</a>
+      </span>
+    </my-header>
     <section class="workout">
       <h1>
         Legs Workout
@@ -16,46 +39,13 @@
         </svg>
       </h1>
       <section class="exercises">
-        <section class="exercise">
-          <dl>
-            <dt><a href="/exercise/squat.html">Squat</a></dt>
-            <dd><a href="/entry/example.html">Entry #1</a></dd>
-            <dd><a href="/entry/example.html">Entry #2</a></dd>
-            <dd><a href="/entry/example.html">Entry #3</a></dd>
-          </dl>
-        </section>
-        <section class="exercise">
-          <dl>
-            <dt><a href="/exercise/leg_press.html">Leg Press</a></dt>
-            <dd><a href="/entry/example.html">Entry #1</a></dd>
-            <dd><a href="/entry/example.html">Entry #2</a></dd>
-            <dd><a href="/entry/example.html">Entry #3</a></dd>
-          </dl>
-        </section>
-        <section class="exercise">
-          <dl>
-            <dt><a href="/exercise/ghr.html">Glute-Ham Raise</a></dt>
-            <dd><a href="/entry/example.html">Entry #1</a></dd>
-            <dd><a href="/entry/example.html">Entry #2</a></dd>
-            <dd><a href="/entry/example.html">Entry #3</a></dd>
-          </dl>
-        </section>
-        <section class="exercise">
-          <dl>
-            <dt><a href="/exercise/leg_extension.html">Leg Extension</a></dt>
-            <dd><a href="/entry/example.html">Entry #1</a></dd>
-            <dd><a href="/entry/example.html">Entry #2</a></dd>
-            <dd><a href="/entry/example.html">Entry #3</a></dd>
-          </dl>
-        </section>
-        <section class="exercise">
-          <dl>
-            <dt><a href="/exercise/leg_curl.html">Leg Curl</a></dt>
-            <dd><a href="/entry/example.html">Entry #1</a></dd>
-            <dd><a href="/entry/example.html">Entry #2</a></dd>
-            <dd><a href="/entry/example.html">Entry #3</a></dd>
-          </dl>
-        </section>
+        <exercise-entries link="squat">Squat</exercise-entries>
+        <exercise-entries link="leg-press">Leg Press</exercise-entries>
+        <exercise-entries link="ghr">Glute-Ham Raise</exercise-entries>
+        <exercise-entries link="leg-extension">
+          Leg Extension
+        </exercise-entries>
+        <exercise-entries link="leg-curl">Leg Curl</exercise-entries>
       </section>
     </section>
   </body>
