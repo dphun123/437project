@@ -26,6 +26,7 @@ var import_mongo = require("./services/mongo");
 var import_pages = require("./pages");
 var import_entries = __toESM(require("./routes/entries"));
 var import_exercise_info = __toESM(require("./routes/exercise-info"));
+var import_exercise_info_svc = __toESM(require("./services/exercise-info-svc"));
 (0, import_mongo.connect)("exercise-log");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
@@ -37,6 +38,16 @@ app.use("/api/exercise", import_exercise_info.default);
 app.get("/hi", (req, res) => {
   const page = new import_pages.LogPage([]);
   res.set("Content-Type", "text/html").send(page.render());
+});
+app.get("/exercise/:ref", (req, res) => {
+  const { ref } = req.params;
+  import_exercise_info_svc.default.get(ref).then((data) => {
+    if (!data) {
+      return res.status(404).send(`Exercise '${ref}' not found.`);
+    }
+    const page = new import_pages.ExerciseInfoPage(data);
+    res.set("Content-Type", "text/html").send(page.render());
+  });
 });
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

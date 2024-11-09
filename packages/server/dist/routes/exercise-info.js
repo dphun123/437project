@@ -37,11 +37,11 @@ const router = import_express.default.Router();
 router.get("/", (_, res) => {
   import_exercise_info_svc.default.index().then((list) => res.json(list)).catch((err) => res.status(500).send(err));
 });
-router.get("/:name", (req, res) => {
-  const { name } = req.params;
-  import_exercise_info_svc.default.get(name).then((data) => {
+router.get("/:ref", (req, res) => {
+  const { ref } = req.params;
+  import_exercise_info_svc.default.get(ref).then((data) => {
     if (!data) {
-      return res.status(404).send(`Exercise '${name}' not found.`);
+      return res.status(404).send(`Exercise '${ref}' not found.`);
     }
     res.json(data);
   }).catch((err) => res.status(404).send(err));

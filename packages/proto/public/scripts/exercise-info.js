@@ -83,10 +83,67 @@ export class ExerciseInfoElement extends HTMLElement {
     }
   `;
 
+  get src() {
+    return this.getAttribute("src");
+  }
+
   constructor() {
     super();
     shadow(this)
       .template(ExerciseInfoElement.template)
       .styles(reset.styles, ExerciseInfoElement.styles);
+  }
+
+  connectedCallback() {
+    if (this.src) this.hydrate(this.src);
+  }
+
+  hydrate(url) {
+    fetch(url)
+      .then((res) => {
+        if (res.status !== 200) throw `Status: ${res.status}`;
+        return res.json();
+      })
+      .then((json) => {
+        this.renderSlots(json);
+      })
+      .catch((error) => console.log(`Failed to render data ${url}:`, error));
+  }
+
+  renderSlots(json) {
+    const entries = Object.entries(json);
+    const toSlot = ([key, value]) => {
+      switch (key) {
+        case "instructions":
+          console.log(value);
+          return value
+            ? html`
+                <span slot="instructions">
+                  <ol>
+                    ${value.map((instruction) => html`<li>${instruction}</li>`)}
+                  </ol>
+                </span>
+              `
+            : html`<p>"No instructions.</p>`;
+        case "images":
+          return value
+            ? html` <span slot="images">
+                ${value.map(
+                  (image) =>
+                    html`<img src=${image} style =width: 400px; height: auto" />`
+                )}
+              </span>`
+            : "";
+      }
+      switch (typeof value) {
+        case "object":
+          if (Array.isArray(value))
+            return html` <span slot="${key}">${value.join(", ")}</span> `;
+        default:
+          return html`<span slot="${key}">${value}</span>`;
+      }
+    };
+    const fragment = entries.map(toSlot);
+    this.replaceChildren(...fragment);
   }
 }

@@ -10,13 +10,13 @@ router.get("/", (_, res: Response) => {
     .catch((err) => res.status(500).send(err));
 });
 
-router.get("/:name", (req: Request, res: Response) => {
-  const { name } = req.params;
+router.get("/:ref", (req: Request, res: Response) => {
+  const { ref } = req.params;
 
-  AllExerciseInfo.get(name)
+  AllExerciseInfo.get(ref)
     .then((data) => {
       if (!data) {
-        return res.status(404).send(`Exercise '${name}' not found.`);
+        return res.status(404).send(`Exercise '${ref}' not found.`);
       }
       res.json(data);
     })

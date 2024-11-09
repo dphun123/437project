@@ -1,8 +1,10 @@
 import express, { Request, Response } from "express";
 import { connect } from "./services/mongo";
-import { LogPage } from "./pages";
+import { ExerciseInfoPage, LogPage } from "./pages";
 import entries from "./routes/entries";
 import exerciseInfo from "./routes/exercise-info";
+import AllExerciseInfo from "./services/exercise-info-svc";
+import Entries from "./services/entry-svc";
 
 connect("exercise-log");
 
@@ -19,6 +21,17 @@ app.use("/api/exercise", exerciseInfo);
 app.get("/hi", (req: Request, res: Response) => {
   const page = new LogPage([]);
   res.set("Content-Type", "text/html").send(page.render());
+});
+
+app.get("/exercise/:ref", (req: Request, res: Response) => {
+  const { ref } = req.params;
+  AllExerciseInfo.get(ref).then((data) => {
+    if (!data) {
+      return res.status(404).send(`Exercise '${ref}' not found.`);
+    }
+    const page = new ExerciseInfoPage(data);
+    res.set("Content-Type", "text/html").send(page.render());
+  });
 });
 
 app.listen(port, () => {

@@ -54,7 +54,8 @@ class ExerciseInfoPage {
     });
   }
   renderBody() {
-    const exerciseInfo = this.renderExerciseInfo(this.data);
+    const { ref } = this.data;
+    const api = `/api/exercise/${ref}`;
     return import_server.html`
       <body class="page-grid">
         <my-header>
@@ -62,44 +63,8 @@ class ExerciseInfoPage {
             <a href="/workout/legs.html">&larr; Legs Workout</a>
           </span>
         </my-header>
-        ${exerciseInfo}
+        <exercise-info src="${api}" />
       </body>
-    `;
-  }
-  renderExerciseInfo(exerciseInfo) {
-    const {
-      name,
-      description,
-      muscles,
-      type,
-      mechanic,
-      level,
-      instructions,
-      images
-    } = exerciseInfo;
-    const instructionsList = instructions ? import_server.html`
-          <ol>
-            ${instructions.map((instruction) => import_server.html`<li>${instruction}</li>`)}
-          </ol>
-        ` : import_server.html`<p>"No instructions.</p>`;
-    const imagesList = images ? import_server.html`
-          ${images.map(
-      (image) => import_server.html`<img src=${image} style="width: 400px; height: auto" />`
-    )}
-        ` : "";
-    return import_server.html`
-      <exercise-info>
-        <span slot="name">${name || "Exercise"}</span>
-        <span slot="description">
-          ${description || "No description found."}
-        </span>
-        <span slot="muscles">${muscles.join(", ") || "N/A"}</span> <br />
-        <span slot="type">${type.join(", ") || "N/A"}</span>
-        <span slot="mechanic"> ${mechanic || "N/A"} </span>
-        <span slot="level">${level || "N/A"}</span>
-        <span slot="instructions"> ${instructionsList} </span>
-        <span slot="images">${imagesList}</span>
-      </exercise-info>
     `;
   }
 }
