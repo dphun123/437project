@@ -16,8 +16,8 @@ h3:not(my-header h3) {
   font-weight: var(--font-weight-bold);
   line-height: var(--font-line-height-display);
 }
-.page > section,
-.page-grid > section {
+.page > mu-auth > section,
+.page-grid > mu-auth > section {
   margin: 0 var(--size-spacing-large) var(--size-spacing-large)
     var(--size-spacing-large);
 }

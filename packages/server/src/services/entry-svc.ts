@@ -1,9 +1,11 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
 import { Entry } from "../models";
 
 const EntrySchema = new Schema<Entry>(
   {
-    exercise: { type: String, required: true },
+    username: String,
+    exercise_ref: { type: String, required: true },
+    exercise_name: { type: String, required: true },
     date_added: { type: Date, required: true, default: Date.now },
     sets: [
       {
@@ -23,11 +25,22 @@ function index(): Promise<Entry[]> {
   return EntryModel.find();
 }
 
-function get(exercise: String): Promise<Entry[] | null> {
-  return EntryModel.find({ exercise })
+function getEntriesByExercise(
+  username: String,
+  exercise_ref: String
+): Promise<Entry[] | null> {
+  return EntryModel.find({ username, exercise_ref })
     .then((entries) => entries)
     .catch((err) => {
-      throw `$No entries for {exercise} found.`;
+      throw `$No entries for ${exercise_ref} found.`;
+    });
+}
+
+function getEntryById(_id: String): Promise<Entry | null> {
+  return EntryModel.findOne({ _id })
+    .then((entry) => entry)
+    .catch((err) => {
+      throw `$No entry with id ${_id} found.`;
     });
 }
 
@@ -51,4 +64,11 @@ function remove(_id: String): Promise<void> {
   });
 }
 
-export default { index, get, create, update, remove };
+export default {
+  index,
+  getEntriesByExercise,
+  getEntryById,
+  create,
+  update,
+  remove,
+};

@@ -24,7 +24,9 @@ module.exports = __toCommonJS(entry_svc_exports);
 var import_mongoose = require("mongoose");
 const EntrySchema = new import_mongoose.Schema(
   {
-    exercise: { type: String, required: true },
+    username: String,
+    exercise_ref: { type: String, required: true },
+    exercise_name: { type: String, required: true },
     date_added: { type: Date, required: true, default: Date.now },
     sets: [
       {
@@ -41,9 +43,14 @@ const EntryModel = (0, import_mongoose.model)("Entry", EntrySchema);
 function index() {
   return EntryModel.find();
 }
-function get(exercise) {
-  return EntryModel.find({ exercise }).then((entries) => entries).catch((err) => {
-    throw `$No entries for {exercise} found.`;
+function getEntriesByExercise(username, exercise_ref) {
+  return EntryModel.find({ username, exercise_ref }).then((entries) => entries).catch((err) => {
+    throw `$No entries for ${exercise_ref} found.`;
+  });
+}
+function getEntryById(_id) {
+  return EntryModel.findOne({ _id }).then((entry) => entry).catch((err) => {
+    throw `$No entry with id ${_id} found.`;
   });
 }
 function create(json) {
@@ -63,4 +70,11 @@ function remove(_id) {
     if (!deleted) throw `Entry ${_id} not deleted.`;
   });
 }
-var entry_svc_default = { index, get, create, update, remove };
+var entry_svc_default = {
+  index,
+  getEntriesByExercise,
+  getEntryById,
+  create,
+  update,
+  remove
+};

@@ -1,21 +1,24 @@
 .page-grid {
   --page-grids: 3;
-
   display: grid;
   grid-template-columns: [start] repeat(var(--page-grids), 1fr) [end];
   column-gap: var(--size-spacing-medium);
+}
 
-  > section {
-    grid-column: start / end;
+.page-grid > mu-auth {
+  display: contents;
+}
 
-    display: grid;
-    grid-template-columns: subgrid;
+.page-grid > mu-auth > section {
+  grid-column: start / end;
+  display: grid;
+  grid-template-columns: subgrid;
 
-    > h2 {
-      grid-column: auto / span 1;
-    }
+  > h2 {
+    grid-column: auto / span 1;
   }
 }
+
 .workout > h2 {
   display: flex;
   justify-content: center;

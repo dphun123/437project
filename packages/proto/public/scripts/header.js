@@ -1,4 +1,4 @@
-import { css, html, shadow, Events } from "@calpoly/mustang";
+import { css, html, shadow, Events, Observer } from "@calpoly/mustang";
 import reset from "./styles/reset.css.js";
 
 export class HeaderElement extends HTMLElement {
@@ -7,11 +7,24 @@ export class HeaderElement extends HTMLElement {
       <header>
         <slot name="left"></slot>
         <div>
-          <label class="dark-mode-switch">
-            <input type="checkbox" autocomplete="off" />
-            Dark mode
-          </label>
-          <slot name="right"></slot>
+          <a slot="actuator">
+            Hello,
+            <a><span id="userid"></span></a>
+          </a>
+          <menu>
+            <li>
+              <label class="dark-mode-switch">
+                <input type="checkbox" />
+                Dark Mode
+              </label>
+            </li>
+            <li class="when-signed-in">
+              <a id="signout">Sign Out</a>
+            </li>
+            <li class="when-signed-out">
+              <a href="/login">Sign In</a>
+            </li>
+          </menu>
         </div>
       </header>
     </template>
@@ -45,7 +58,45 @@ export class HeaderElement extends HTMLElement {
 
       margin-bottom: var(--size-spacing-large);
     }
+    a[slot="actuator"] {
+      color: var(--color-link-inverted);
+      cursor: pointer;
+    }
+    #userid:empty::before {
+      content: "user";
+    }
+    menu a {
+      color: var(--color-link);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    div a span {
+      color: var(--color-link);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    menu li input {
+      cursor: pointer;
+    }
+    a:has(#userid:empty) ~ menu > .when-signed-in,
+    a:has(#userid:not(:empty)) ~ menu > .when-signed-out {
+      display: none;
+    }
   `;
+
+  get userid() {
+    return this._userid.textContent;
+  }
+
+  set userid(id) {
+    if (id === "anonymous") {
+      this._userid.textContent = "";
+      this._signout.disabled = true;
+    } else {
+      this._userid.textContent = id;
+      this._signout.disabled = false;
+    }
+  }
 
   constructor() {
     super();
@@ -53,8 +104,13 @@ export class HeaderElement extends HTMLElement {
       .template(HeaderElement.template)
       .styles(reset.styles, HeaderElement.styles);
 
-    const dm = this.shadowRoot.querySelector(".dark-mode-switch");
+    this._userid = this.shadowRoot.querySelector("#userid");
+    this._signout = this.shadowRoot.querySelector("#signout");
+    this._signout.addEventListener("click", (event) =>
+      Events.relay(event, "auth:message", ["auth/signout"])
+    );
 
+    const dm = this.shadowRoot.querySelector(".dark-mode-switch");
     dm.addEventListener("click", (event) =>
       Events.relay(event, "dark-mode", {
         checked: event.target.checked,
@@ -70,5 +126,17 @@ export class HeaderElement extends HTMLElement {
     document.body.addEventListener("dark-mode", (event) =>
       toggleDarkMode(event.currentTarget, event.detail.checked)
     );
+  }
+
+  _authObserver = new Observer(this, "log:auth");
+  connectedCallback() {
+    this._authObserver.observe(({ user }) => {
+      if (user && user.username !== this.userid) {
+        this.userid = user.username;
+        const profile = this.shadowRoot.querySelector("#userid");
+        const anchor = profile.parentNode;
+        anchor.href = `/user/${this.userid}`;
+      }
+    });
   }
 }

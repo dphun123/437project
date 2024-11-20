@@ -1,4 +1,4 @@
-.page {
+.page > mu-auth {
   --exercise-grids: 5;
 
   > .workout {

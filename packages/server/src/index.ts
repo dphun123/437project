@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import { connect } from "./services/mongo";
-import { ExerciseInfoPage, LogPage } from "./pages";
+import auth, { authenticateUser } from "./routes/auth";
+import { LoginPage } from "./pages/auth";
+import { LogPage, EntryPage, ExerciseInfoPage } from "./pages";
 import entries from "./routes/entries";
 import exerciseInfo from "./routes/exercise-info";
 import AllExerciseInfo from "./services/exercise-info-svc";
@@ -15,13 +17,15 @@ app.use(express.static(staticDir));
 
 app.use(express.json());
 
-app.use("/api/entry", entries);
+app.use("/auth", auth);
+app.use("/api/entry", authenticateUser, entries);
 app.use("/api/exercise", exerciseInfo);
 
-app.get("/", (req: Request, res: Response) => {
-  // const user = "Dennis";
-  // Exercises.get(user).then((data) => {
+app.get("/test", (req: Request, res: Response) => {
+  // const name = "ppl";
+  // Routines.get(name).then((data) => {
   //   if (!data) {
+  //     // set up landing page instead
   //     const page = new LogPage([]);
   //     res.set("Content-Type", "text/html").send(page.render());
   //   } else {
@@ -33,6 +37,11 @@ app.get("/", (req: Request, res: Response) => {
   res.set("Content-Type", "text/html").send(page.render());
 });
 
+app.get("/login", (req: Request, res: Response) => {
+  const page = new LoginPage();
+  res.set("Content-Type", "text/html").send(page.render());
+});
+
 app.get("/exercise/:ref", (req: Request, res: Response) => {
   const { ref } = req.params;
   AllExerciseInfo.get(ref).then((data) => {
@@ -40,6 +49,17 @@ app.get("/exercise/:ref", (req: Request, res: Response) => {
       return res.status(404).send(`Exercise '${ref}' not found.`);
     }
     const page = new ExerciseInfoPage(data);
+    res.set("Content-Type", "text/html").send(page.render());
+  });
+});
+
+app.get("/entry/:_id", (req: Request, res: Response) => {
+  const { _id } = req.params;
+  Entries.getEntryById(_id).then((data) => {
+    if (!data) {
+      return res.status(404).send(`Entry '${_id}' not found.`);
+    }
+    const page = new EntryPage(data);
     res.set("Content-Type", "text/html").send(page.render());
   });
 });

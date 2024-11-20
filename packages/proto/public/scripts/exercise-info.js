@@ -115,7 +115,6 @@ export class ExerciseInfoElement extends HTMLElement {
     const toSlot = ([key, value]) => {
       switch (key) {
         case "instructions":
-          console.log(value);
           return value
             ? html`
                 <span slot="instructions">

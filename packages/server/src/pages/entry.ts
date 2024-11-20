@@ -1,11 +1,11 @@
 import { css, html } from "@calpoly/mustang/server";
-import { ExerciseInfo } from "../models";
+import { Entry } from "../models";
 import renderPage from "./renderPage";
 
-export class ExerciseInfoPage {
-  data: ExerciseInfo;
+export class EntryPage {
+  data: Entry;
 
-  constructor(data: ExerciseInfo) {
+  constructor(data: Entry) {
     this.data = data;
   }
 
@@ -16,9 +16,9 @@ export class ExerciseInfoPage {
       styles: [],
       scripts: [
         `import { define } from "@calpoly/mustang";
-      import { ExerciseInfoElement } from "/scripts/exercise-info.js";
+      import { EntryElement } from "/scripts/entry.js";
       define({
-        "exercise-info": ExerciseInfoElement,
+        "exercise-entry": EntryElement,
       });
       `,
       ],
@@ -26,18 +26,18 @@ export class ExerciseInfoPage {
   }
 
   renderBody() {
-    const { ref } = this.data;
-    const api = `/api/exercise/${ref}`;
+    const { _id } = this.data;
+    const api = `/api/entry/${_id}`;
 
     return html`
-      <body class="page-grid">
+      <body class="page">
         <mu-auth provides="log:auth">
           <my-header>
             <span slot="left">
-              <a href="/workout/legs.html">&larr; Legs Workout</a>
+              <a href="/">&larr; Workout Log</a>
             </span>
           </my-header>
-          <exercise-info src="${api}" />
+          <exercise-entry src="${api}" />
         </mu-auth>
       </body>
     `;

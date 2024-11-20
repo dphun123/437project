@@ -20,75 +20,77 @@
       }
     </script>
     <script type="module">
-      import { define } from "@calpoly/mustang";
+      import { define, Auth } from "@calpoly/mustang";
       import { ExerciseEntriesElement } from "/scripts/exercise-entries.js";
       import { HeaderElement } from "/scripts/header.js";
 
       define({
         "exercise-entries": ExerciseEntriesElement,
         "my-header": HeaderElement,
+        "mu-auth": Auth.Provider,
       });
 
       HeaderElement.initializeOnce();
     </script>
   </head>
   <body class="page-grid">
-    <my-header>
-      <span slot="left">
-        <h1>PPL Routine</h1>
-      </span>
-      <span slot="right">
-        <p><a href="/user/dennis.html">Dennis</a>' Workout Log</p>
-      </span>
-    </my-header>
-    <section class="log">
-      <section class="workout">
-        <h2>
-          <a href="/workout/legs.html">Legs</a>
-          <svg class="icon">
-            <use href="/icons/workouts.svg#icon-legs" />
-          </svg>
-        </h2>
-        <section class="exercises">
-          <dl>
-            <exercise-entries link="squat">Squat</exercise-entries>
-            <exercise-entries link="leg-press">Leg Press</exercise-entries>
-            <exercise-entries link="ghr">Glute-Ham Raise</exercise-entries>
-            <exercise-entries link="leg-extension">
-              Leg Extension
-            </exercise-entries>
-            <exercise-entries link="leg-curl">Leg Curl</exercise-entries>
-          </dl>
+    <mu-auth provides="log:auth">
+      <my-header>
+        <span slot="left">
+          <h1>PPL Routine</h1>
+        </span>
+      </my-header>
+      <section class="log">
+        <section class="workout">
+          <h2>
+            <a href="/workout/legs.html">Legs</a>
+            <svg class="icon">
+              <use href="/icons/workouts.svg#icon-legs" />
+            </svg>
+          </h2>
+          <section class="exercises">
+            <dl>
+              <exercise-entries link="squat">Squat</exercise-entries>
+              <exercise-entries link="leg-press">Leg Press</exercise-entries>
+              <exercise-entries link="ghr">Glute-Ham Raise</exercise-entries>
+              <exercise-entries link="leg-extension">
+                Leg Extension
+              </exercise-entries>
+              <exercise-entries link="leg-curl">Leg Curl</exercise-entries>
+            </dl>
+          </section>
+        </section>
+        <section class="workout">
+          <h2>
+            <a href="/workout/push.html">Push</a>
+            <svg class="icon">
+              <use href="/icons/workouts.svg#icon-push" />
+            </svg>
+          </h2>
+          <section class="exercises">
+            <dl>
+              <exercise-entries link="bench-press"
+                >Bench Press</exercise-entries
+              >
+              <exercise-entries></exercise-entries>
+            </dl>
+          </section>
+        </section>
+        <section class="workout">
+          <h2>
+            <a href="/workout/pull.html">Pull</a>
+            <svg class="icon">
+              <use href="/icons/workouts.svg#icon-pull" />
+            </svg>
+          </h2>
+          <section class="exercises">
+            <dl>
+              <exercise-entries link="pull-up">Pull-up</exercise-entries>
+              <exercise-entries></exercise-entries>
+            </dl>
+          </section>
         </section>
       </section>
-      <section class="workout">
-        <h2>
-          <a href="/workout/push.html">Push</a>
-          <svg class="icon">
-            <use href="/icons/workouts.svg#icon-push" />
-          </svg>
-        </h2>
-        <section class="exercises">
-          <dl>
-            <exercise-entries link="bench-press">Bench Press</exercise-entries>
-            <exercise-entries></exercise-entries>
-          </dl>
-        </section>
-      </section>
-      <section class="workout">
-        <h2>
-          <a href="/workout/pull.html">Pull</a>
-          <svg class="icon">
-            <use href="/icons/workouts.svg#icon-pull" />
-          </svg>
-        </h2>
-        <section class="exercises">
-          <dl>
-            <exercise-entries link="pull-up">Pull-up</exercise-entries>
-            <exercise-entries></exercise-entries>
-          </dl>
-        </section>
-      </section>
-    </section>
+    </mu-auth>
   </body>
 </html>

@@ -26,14 +26,14 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var log_exports = {};
-__export(log_exports, {
-  LogPage: () => LogPage
+var entry_exports = {};
+__export(entry_exports, {
+  EntryPage: () => EntryPage
 });
-module.exports = __toCommonJS(log_exports);
+module.exports = __toCommonJS(entry_exports);
 var import_server = require("@calpoly/mustang/server");
 var import_renderPage = __toESM(require("./renderPage"));
-class LogPage {
+class EntryPage {
   data;
   constructor(data) {
     this.data = data;
@@ -41,75 +41,36 @@ class LogPage {
   render() {
     return (0, import_renderPage.default)({
       body: this.renderBody(),
-      stylesheets: ["/styles/log.css"],
+      stylesheets: ["/styles/exercise.css"],
       styles: [],
       scripts: [
         `import { define } from "@calpoly/mustang";
-      import { ExerciseEntriesElement } from "/scripts/exercise-entries.js";
-
+      import { EntryElement } from "/scripts/entry.js";
       define({
-        "exercise-entries": ExerciseEntriesElement,
+        "exercise-entry": EntryElement,
       });
       `
       ]
     });
   }
   renderBody() {
+    const { _id } = this.data;
+    const api = `/api/entry/${_id}`;
     return import_server.html`
-      <body class="page-grid">
+      <body class="page">
         <mu-auth provides="log:auth">
           <my-header>
             <span slot="left">
-              <h1>PPL Routine</h1>
+              <a href="/">&larr; Workout Log</a>
             </span>
           </my-header>
-          <section class="log">
-            ${this.renderWorkoutSection("legs", "Legs", [
-      { name: "Squat", ref: "squat" },
-      { name: "Leg Press", ref: "leg-press" },
-      { name: "Glute-Ham Raise", ref: "ghr" },
-      { name: "Leg Extension", ref: "leg-extension" },
-      { name: "Leg Curl", ref: "leg-curl" }
-    ])}
-            ${this.renderWorkoutSection("push", "Push", [
-      { name: "Bench Press", ref: "bench-press" }
-    ])}
-            ${this.renderWorkoutSection("pull", "Pull", [
-      { name: "Pull-up", ref: "pull-up" }
-    ])}
-          </section>
+          <exercise-entry src="${api}" />
         </mu-auth>
       </body>
-    `;
-  }
-  renderWorkoutSection(ref, title, exercises) {
-    return import_server.html`
-      <section class="workout">
-        <h2>
-          <a href="/workout/${ref}.html">${title}</a>
-          <svg class="icon">
-            <use href="/icons/workouts.svg#icon-${ref}" />
-          </svg>
-        </h2>
-        <section class="exercises">
-          <dl>
-            ${exercises.map(
-      (exercise) => import_server.html`
-                  <exercise-entries
-                    src="/api/entry/exercise/${exercise.ref}"
-                    ref=${exercise.ref}
-                  >
-                    ${exercise.name}
-                  </exercise-entries>
-                `
-    )}
-          </dl>
-        </section>
-      </section>
     `;
   }
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  LogPage
+  EntryPage
 });

@@ -13,40 +13,43 @@
       }
     </script>
     <script type="module">
-      import { define } from "@calpoly/mustang";
+      import { define, Auth } from "@calpoly/mustang";
       import { ExerciseEntriesElement } from "/scripts/exercise-entries.js";
       import { HeaderElement } from "/scripts/header.js";
 
       define({
         "exercise-entries": ExerciseEntriesElement,
         "my-header": HeaderElement,
+        "mu-auth": Auth.Provider,
       });
 
       HeaderElement.initializeOnce();
     </script>
   </head>
   <body class="page">
-    <my-header>
-      <span slot="left">
-        <a href="/index.html">&larr; Workout Log</a>
-      </span>
-    </my-header>
-    <section class="workout">
-      <h1>
-        Legs Workout
-        <svg class="icon">
-          <use href="/icons/workouts.svg#icon-legs" />
-        </svg>
-      </h1>
-      <section class="exercises">
-        <exercise-entries link="squat">Squat</exercise-entries>
-        <exercise-entries link="leg-press">Leg Press</exercise-entries>
-        <exercise-entries link="ghr">Glute-Ham Raise</exercise-entries>
-        <exercise-entries link="leg-extension">
-          Leg Extension
-        </exercise-entries>
-        <exercise-entries link="leg-curl">Leg Curl</exercise-entries>
+    <mu-auth provides="log:auth">
+      <my-header>
+        <span slot="left">
+          <a href="/index.html">&larr; Workout Log</a>
+        </span>
+      </my-header>
+      <section class="workout">
+        <h1>
+          Legs Workout
+          <svg class="icon">
+            <use href="/icons/workouts.svg#icon-legs" />
+          </svg>
+        </h1>
+        <section class="exercises">
+          <exercise-entries link="squat">Squat</exercise-entries>
+          <exercise-entries link="leg-press">Leg Press</exercise-entries>
+          <exercise-entries link="ghr">Glute-Ham Raise</exercise-entries>
+          <exercise-entries link="leg-extension">
+            Leg Extension
+          </exercise-entries>
+          <exercise-entries link="leg-curl">Leg Curl</exercise-entries>
+        </section>
       </section>
-    </section>
+    </mu-auth>
   </body>
 </html>

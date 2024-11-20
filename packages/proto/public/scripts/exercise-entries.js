@@ -1,4 +1,4 @@
-import { css, html, shadow } from "@calpoly/mustang";
+import { css, html, shadow, Observer } from "@calpoly/mustang";
 import reset from "./styles/reset.css.js";
 
 export class ExerciseEntriesElement extends HTMLElement {
@@ -8,9 +8,11 @@ export class ExerciseEntriesElement extends HTMLElement {
         <dt>
           <a><slot>Exercise</slot></a>
         </dt>
-        <slot name="entries">
-          <dd>No entries yet</dd>
-        </slot>
+        <dd>
+          <ul>
+            <slot name="entries">No entries yet</slot>
+          </ul>
+        </dd>
       </section>
     </template>
   `;
@@ -26,7 +28,7 @@ export class ExerciseEntriesElement extends HTMLElement {
         grid-column: start / end;
       }
       > dd {
-        grid-column: auto / span 1;
+        grid-column: start / span 1;
       }
     }
     a {
@@ -38,18 +40,21 @@ export class ExerciseEntriesElement extends HTMLElement {
     }
   `;
 
+  get authorization() {
+    console.log("Authorization for user, ", this._user);
+    if (this._user && this._user.authenticated)
+      return {
+        Authorization: `Bearer ${this._user.token}`,
+      };
+    else return {};
+  }
+
   get src() {
     return this.getAttribute("src");
   }
 
-  get link() {
-    return this.getAttribute("link") || "exercise";
-  }
-
-  get entries() {
-    return this.getAttribute("entries")
-      ? JSON.parse(this.getAttribute("entries"))
-      : [];
+  get ref() {
+    return this.getAttribute("ref") || "exercise";
   }
 
   constructor() {
@@ -59,17 +64,21 @@ export class ExerciseEntriesElement extends HTMLElement {
       .styles(reset.styles, ExerciseEntriesElement.styles);
   }
 
+  _authObserver = new Observer(this, "log:auth");
   connectedCallback() {
-    if (this.src) this.hydrate(this.src);
+    this._authObserver.observe(({ user }) => {
+      this._user = user;
+      if (this.src) this.hydrate(this.src);
+    });
 
-    if (this.link) {
+    if (this.ref) {
       const exercise = this.shadowRoot.querySelector("dt a");
-      exercise.href = `/exercise/${this.link}`;
+      exercise.href = `/exercise/${this.ref}`;
     }
   }
 
   hydrate(url) {
-    fetch(url)
+    fetch(url, { headers: this.authorization })
       .then((res) => {
         if (res.status !== 200) throw `Status: ${res.status}`;
         return res.json();
@@ -78,29 +87,23 @@ export class ExerciseEntriesElement extends HTMLElement {
       .catch((error) => console.log(`Failed to render data ${url}:`, error));
   }
 
-  // TODO: figure out how to setup page to show these
-  // renderSlots(json) {
-  //   const entries = Object.entries(json);
-  //   const toSlot = ([key, value]) => html`<span slot="${key}">${value}</span>`;
-
-  //   const fragment = entries.map(toSlot);
-  //   this.replaceChildren(...fragment);
-  // }
+  renderSlots(json) {
+    const entries = Object.entries(json);
+    if (entries.length === 0) return;
+    const toSlot = (entries) => {
+      return html`
+        <span slot="entries">
+          ${entries.map(
+            ([key, entry]) => html`
+              <li>
+                <a href="/entry/${entry._id}">Entry #${Number(key) + 1}</a>
+              </li>
+            `
+          )}
+        </span>
+      `;
+    };
+    const fragment = [toSlot(entries)];
+    this.append(...fragment);
+  }
 }
-
-// const entriesSlot = template.querySelector('slot[name="entries"]');
-// if (entries.length > 0) {
-//   const entryList = entries.map((entry, index) => {
-//     const dd = document.createElement("dd");
-//     const a = document.createElement("a");
-//     a.href = `/entry/${entry.id}.html`;
-//     a.textContent = `Entry #${index + 1} - ${new Date(
-//       entry.date_added
-//     ).toLocaleDateString()}`;
-//     dd.appendChild(a);
-//     return dd;
-//   });
-// }
-// entriesSlot.innerHTML = "";
-// entryList.forEach((entry) => entriesSlot.appendChild(entry));
-// }
