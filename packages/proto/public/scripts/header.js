@@ -58,10 +58,6 @@ export class HeaderElement extends HTMLElement {
 
       margin-bottom: var(--size-spacing-large);
     }
-    a[slot="actuator"] {
-      color: var(--color-link-inverted);
-      cursor: pointer;
-    }
     #userid:empty::before {
       content: "user";
     }
@@ -70,7 +66,11 @@ export class HeaderElement extends HTMLElement {
       cursor: pointer;
       text-decoration: underline;
     }
-    div a span {
+    #userid:empty {
+      color: var(--color-text);
+      text-decoration: none;
+    }
+    #userid:not(:empty) {
       color: var(--color-link);
       cursor: pointer;
       text-decoration: underline;
@@ -134,8 +134,10 @@ export class HeaderElement extends HTMLElement {
       if (user && user.username !== this.userid) {
         this.userid = user.username;
         const profile = this.shadowRoot.querySelector("#userid");
-        const anchor = profile.parentNode;
-        anchor.href = `/user/${this.userid}`;
+        if (profile.textContent !== "") {
+          const anchor = profile.parentNode;
+          anchor.href = `/user/${this.userid}`;
+        }
       }
     });
   }

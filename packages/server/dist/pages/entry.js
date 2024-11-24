@@ -64,7 +64,7 @@ class EntryPage {
               <a href="/">&larr; Workout Log</a>
             </span>
           </my-header>
-          <exercise-entry src="${api}" />
+          <exercise-entry mode="view" src="${api}" />
         </mu-auth>
       </body>
     `;
