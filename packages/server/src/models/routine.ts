@@ -5,5 +5,5 @@ export interface Routine {
   name: string;
   created_at: Date;
   owner: ObjectId;
-  days: ObjectId[];
+  workouts: ObjectId[];
 }

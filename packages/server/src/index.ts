@@ -7,6 +7,8 @@ import entries from "./routes/entries";
 import exerciseInfo from "./routes/exercise-info";
 import AllExerciseInfo from "./services/exercise-info-svc";
 import Entries from "./services/entry-svc";
+import fs from "node:fs/promises";
+import path from "path";
 
 connect("exercise-log");
 
@@ -62,6 +64,11 @@ app.get("/entry/:_id", (req: Request, res: Response) => {
     const page = new EntryPage(data);
     res.set("Content-Type", "text/html").send(page.render());
   });
+});
+
+app.use("/app", (req: Request, res: Response) => {
+  const indexHtml = path.resolve(staticDir, "index.html");
+  fs.readFile(indexHtml, { encoding: "utf8" }).then((html) => res.send(html));
 });
 
 app.listen(port, () => {

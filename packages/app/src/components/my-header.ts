@@ -1,5 +1,6 @@
-import { Events } from "@calpoly/mustang";
-import { LitElement, css, html } from "lit";
+import { Auth, History, Observer, Events } from "@calpoly/mustang";
+import { css, html, LitElement } from "lit";
+import { state } from "lit/decorators.js";
 import reset from "../styles/reset.css";
 
 function toggleDarkMode(ev: InputEvent) {
@@ -8,15 +9,55 @@ function toggleDarkMode(ev: InputEvent) {
   Events.relay(ev, "dark-mode", { checked });
 }
 
+function signOut(ev: MouseEvent) {
+  Events.relay(ev, "auth:message", ["auth/signout"]);
+}
+
 export class HeaderElement extends LitElement {
+  @state()
+  userid: string = "anonymous";
+
+  @state()
+  location: string = "/app";
+
+  _authObserver = new Observer<Auth.Model>(this, "log:auth");
+  _histObserver = new Observer<History.Model>(this, "log:history");
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    this._authObserver.observe(({ user }) => {
+      if (user && user.username !== this.userid) {
+        this.userid = user.username;
+        const anchor = this.shadowRoot?.querySelector("#userid")
+          ?.parentNode as HTMLAnchorElement;
+        anchor.href = `/user/${this.userid}`;
+      }
+    });
+
+    this._histObserver.observe(({ location }) => {
+      console.log("LOCATION", location.pathname);
+      console.log("PREV LOCATION", this.location);
+      if (location && location.pathname !== this.location) {
+        this.location = location.pathname;
+      }
+    });
+  }
+
   render() {
     return html`
       <header>
-        <slot name="left"></slot>
+        ${this.location === "/app"
+          ? html`<h1>PPL Routine</h1>`
+          : html`<a class="link" href="/">&larr; Workout Log</a>`}
         <div>
           <a>
             Hello,
-            <a><span id="userid"></span></a>
+            <a
+              ><span id="userid"
+                >${this.userid === "anonymous" ? "" : this.userid}</span
+              ></a
+            >
           </a>
           <menu>
             <li>
@@ -26,10 +67,10 @@ export class HeaderElement extends LitElement {
               </label>
             </li>
             <li class="when-signed-in">
-              <a id="signout">Sign Out</a>
+              <a class="link" id="signout" @click=${signOut}>Sign Out</a>
             </li>
             <li class="when-signed-out">
-              <a href="/login">Sign In</a>
+              <a class="link" href="/login">Sign In</a>
             </li>
           </menu>
         </div>
@@ -55,13 +96,17 @@ export class HeaderElement extends LitElement {
 
         margin-bottom: var(--size-spacing-large);
       }
-      #userid:empty::before {
-        content: "user";
+      h1 {
+        font-size: var(--size-type-xxlarge);
+        font-style: oblique;
       }
-      menu a {
+      .link {
         color: var(--color-link);
         cursor: pointer;
         text-decoration: underline;
+      }
+      #userid:empty::before {
+        content: "user";
       }
       #userid:empty {
         color: var(--color-text);
@@ -81,17 +126,4 @@ export class HeaderElement extends LitElement {
       }
     `,
   ];
-
-  static initializeOnce() {
-    function toggleDarkMode(page: HTMLElement, checked: boolean) {
-      page.classList.toggle("dark-mode", checked);
-    }
-
-    document.body.addEventListener("dark-mode", (event) =>
-      toggleDarkMode(
-        event.currentTarget as HTMLElement,
-        (event as CustomEvent).detail?.checked
-      )
-    );
-  }
 }

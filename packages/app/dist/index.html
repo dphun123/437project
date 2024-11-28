@@ -10,12 +10,18 @@
     />
     <link rel="stylesheet" href="/styles/reset.css" />
     <link rel="stylesheet" href="/styles/tokens.css" />
-    <link rel="stylesheet" href="/styles/page.css" />
-    <script type="module" crossorigin src="/assets/index-DUuDdH3f.js"></script>
+    <link rel="stylesheet" href="/styles/page.css" />
+    <script type="module" crossorigin src="/assets/spa-DU_SUSqe.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/main-p290FGcM.js">
   </head>
   <body>
-    <mu-auth provides="log:auth">
-      <log-app></log-app>
-    </mu-auth>
+    <mu-history provides="log:history">
+      <mu-auth provides="log:auth" redirect="/login.html">
+        <article class="page">
+          <my-header></my-header>
+          <mu-switch></mu-switch>
+        </article>
+      </mu-auth>
+    </mu-history>
   </body>
 </html>

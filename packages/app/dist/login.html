@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/reset.css" />
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/page.css" />
+    <style>
+      .page {
+        height: 100vh;
+        grid-template-rows: 1fr fit-content(1fr) 1fr;
+      }
+      main.card {
+        align-self: center;
+        grid-column: 3 / span 4;
+      }
+      h2 {
+        grid-column: start / end;
+        align-self: end;
+      }
+      p {
+        grid-column: 2 / -2;
+        text-align: center;
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/main-p290FGcM.js"></script>
+  </head>
+  <body class="page">
+    <mu-auth>
+        <main class="card">
+          <section>
+            <login-form api="/auth/login">
+              <h3 slot="title">Sign in and go places!</h3>
+            </login-form>
+            <p class="register">
+              Or did you want to
+              <a href="./register.html"> register as a new user </a>
+              ?
+            </p>
+          </section>
+        </main>
+      </article>
+    </mu-auth>
+  </body>
+</html>

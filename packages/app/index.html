@@ -12,10 +12,24 @@
     <link rel="stylesheet" href="/styles/tokens.css" />
     <link rel="stylesheet" href="/styles/page.css" />
     <script type="module" src="/src/main"></script>
+    <script type="module">
+      function toggleDarkMode(page, checked) {
+        page.classList.toggle("dark-mode", checked);
+      }
+
+      document.body.addEventListener("dark-mode", (event) =>
+        toggleDarkMode(event.currentTarget, event.detail.checked)
+      );
+    </script>
   </head>
   <body>
-    <mu-auth provides="log:auth">
-      <log-app></log-app>
-    </mu-auth>
+    <mu-history provides="log:history">
+      <mu-auth provides="log:auth" redirect="/login.html">
+        <article class="page">
+          <my-header></my-header>
+          <mu-switch></mu-switch>
+        </article>
+      </mu-auth>
+    </mu-history>
   </body>
 </html>

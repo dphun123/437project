@@ -30,6 +30,8 @@ var import_entries = __toESM(require("./routes/entries"));
 var import_exercise_info = __toESM(require("./routes/exercise-info"));
 var import_exercise_info_svc = __toESM(require("./services/exercise-info-svc"));
 var import_entry_svc = __toESM(require("./services/entry-svc"));
+var import_promises = __toESM(require("node:fs/promises"));
+var import_path = __toESM(require("path"));
 (0, import_mongo.connect)("exercise-log");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
@@ -66,6 +68,10 @@ app.get("/entry/:_id", (req, res) => {
     const page = new import_pages.EntryPage(data);
     res.set("Content-Type", "text/html").send(page.render());
   });
+});
+app.use("/app", (req, res) => {
+  const indexHtml = import_path.default.resolve(staticDir, "index.html");
+  import_promises.default.readFile(indexHtml, { encoding: "utf8" }).then((html) => res.send(html));
 });
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

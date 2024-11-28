@@ -3,8 +3,12 @@ import { css, html, LitElement } from "lit";
 import { state } from "lit/decorators.js";
 // import { Routine, Workout, Exercise } from "server/models";
 import reset from "../styles/reset.css";
+// import { EntryElement } from "../components/exercise-entry";
 
-export class HomeViewElement extends LitElement {
+export class LogViewElement extends LitElement {
+  // static uses = define({
+  //   "exercise-entry": EntryElement,
+  // });
   // src = "/api/routine";
 
   @state()
@@ -45,11 +49,6 @@ export class HomeViewElement extends LitElement {
 
     return html`
       <main class="page">
-        <my-header>
-          <span slot="left">
-            <h1>PPL Routine</h1>
-          </span>
-        </my-header>
         <section class="log">${log}</section>
       </main>
     `;
@@ -73,12 +72,24 @@ export class HomeViewElement extends LitElement {
             ${exercises.map(
               (exercise) =>
                 html`
-                  <exercise-entries
+                  <!-- <exercise-entry
                     src="/api/entry/exercise/${exercise.ref}"
                     ref=${exercise.ref}
                   >
                     ${exercise.name}
-                  </exercise-entries>
+                  </exercise-entry> -->
+                  <section class="exercise">
+                    <dt>
+                      <a href="/app/exercise/${exercise.ref}"
+                        ><slot>${exercise.name}</slot></a
+                      >
+                    </dt>
+                    <dd>
+                      <ul>
+                        <slot name="entries">No entries yet</slot>
+                      </ul>
+                    </dd>
+                  </section>
                 `
             )}
           </dl>
@@ -115,10 +126,6 @@ export class HomeViewElement extends LitElement {
         line-height: var(--font-line-height-body);
         font-size: var(--size-type-body);
       }
-      h1 {
-        font-size: var(--size-type-xxlarge);
-        font-style: oblique;
-      }
       h2 {
         font-size: var(--size-type-xlarge);
 
@@ -152,9 +159,6 @@ export class HomeViewElement extends LitElement {
         display: grid;
         grid-template-columns: [start] repeat(var(--page-grids), 1fr) [end];
         column-gap: var(--size-spacing-medium);
-      }
-      my-header {
-        grid-column: start / end;
       }
       .log {
         grid-column: start / end;
