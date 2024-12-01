@@ -28,6 +28,7 @@ var import_auth2 = require("./pages/auth");
 var import_pages = require("./pages");
 var import_entries = __toESM(require("./routes/entries"));
 var import_exercise_info = __toESM(require("./routes/exercise-info"));
+var import_filesystem = require("./services/filesystem");
 var import_exercise_info_svc = __toESM(require("./services/exercise-info-svc"));
 var import_entry_svc = __toESM(require("./services/entry-svc"));
 var import_promises = __toESM(require("node:fs/promises"));
@@ -39,6 +40,8 @@ const staticDir = process.env.STATIC || "public";
 app.use(import_express.default.static(staticDir));
 app.use(import_express.default.json());
 app.use("/auth", import_auth.default);
+app.post("/images", import_filesystem.saveFile);
+app.get("/images/:id", import_filesystem.getFile);
 app.use("/api/entry", import_auth.authenticateUser, import_entries.default);
 app.use("/api/exercise", import_exercise_info.default);
 app.get("/test", (req, res) => {

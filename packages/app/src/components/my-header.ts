@@ -36,8 +36,6 @@ export class HeaderElement extends LitElement {
     });
 
     this._histObserver.observe(({ location }) => {
-      console.log("LOCATION", location.pathname);
-      console.log("PREV LOCATION", this.location);
       if (location && location.pathname !== this.location) {
         this.location = location.pathname;
       }

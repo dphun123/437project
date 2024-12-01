@@ -1,4 +1,7 @@
-import { Auth, History, Switch, define } from "@calpoly/mustang";
+import { Auth, History, Switch, Store, define } from "@calpoly/mustang";
+import { Msg } from "./messages";
+import { Model, init } from "./model";
+import update from "./update";
 import { html } from "lit";
 import { HeaderElement } from "./components/my-header";
 import { LoginFormElement } from "./components/login-form";
@@ -29,6 +32,11 @@ define({
   "mu-switch": class AppSwitch extends Switch.Element {
     constructor() {
       super(routes, "log:history", "log:auth");
+    }
+  },
+  "mu-store": class AppStore extends Store.Provider<Model, Msg> {
+    constructor() {
+      super(update, init, "log:auth");
     }
   },
   "my-header": HeaderElement,

@@ -65,7 +65,6 @@ export function authenticateUser(
   } else {
     jwt.verify(token, TOKEN_SECRET, (error, decoded) => {
       if (decoded) {
-        req.user = decoded.username;
         next();
       } else res.status(403).end();
     });

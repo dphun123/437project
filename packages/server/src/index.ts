@@ -5,6 +5,7 @@ import { LoginPage } from "./pages/auth";
 import { LogPage, EntryPage, ExerciseInfoPage } from "./pages";
 import entries from "./routes/entries";
 import exerciseInfo from "./routes/exercise-info";
+import { getFile, saveFile } from "./services/filesystem";
 import AllExerciseInfo from "./services/exercise-info-svc";
 import Entries from "./services/entry-svc";
 import fs from "node:fs/promises";
@@ -20,6 +21,10 @@ app.use(express.static(staticDir));
 app.use(express.json());
 
 app.use("/auth", auth);
+
+app.post("/images", saveFile);
+app.get("/images/:id", getFile);
+
 app.use("/api/entry", authenticateUser, entries);
 app.use("/api/exercise", exerciseInfo);
 

@@ -25,10 +25,12 @@
   <body>
     <mu-history provides="log:history">
       <mu-auth provides="log:auth" redirect="/login.html">
-        <article class="page">
-          <my-header></my-header>
-          <mu-switch></mu-switch>
-        </article>
+        <mu-store provides="log:model">
+          <article class="page">
+            <my-header></my-header>
+            <mu-switch></mu-switch>
+          </article>
+        </mu-store>
       </mu-auth>
     </mu-history>
   </body>

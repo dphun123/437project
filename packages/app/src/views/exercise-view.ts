@@ -1,45 +1,29 @@
-import { Auth, Observer } from "@calpoly/mustang";
-import { css, html, LitElement, TemplateResult } from "lit";
+import { View } from "@calpoly/mustang";
+import { css, html, TemplateResult } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ExerciseInfo } from "server/models";
+import { Msg } from "../messages";
+import { Model } from "../model";
 import reset from "../styles/reset.css";
 
-export class ExerciseViewElement extends LitElement {
-  @property({ attribute: "ref", reflect: true })
-  ref = "";
+export class ExerciseViewElement extends View<Model, Msg> {
+  @property()
+  ref?: string;
 
   @state()
-  exerciseInfo?: ExerciseInfo;
-
-  _authObserver = new Observer<Auth.Model>(this, "log:auth");
-
-  _user = new Auth.User();
-
-  connectedCallback() {
-    super.connectedCallback();
-    this._authObserver.observe(({ user }) => {
-      if (user) {
-        this._user = user;
-      }
-      this.hydrate();
-    });
+  get exerciseInfo(): ExerciseInfo | undefined {
+    return this.model.exerciseInfo;
   }
 
-  hydrate() {
-    const url = `/api/exercise/${this.ref}`;
-    fetch(url, {
-      headers: Auth.headers(this._user),
-    })
-      .then((res: Response) => {
-        if (res.status === 200) return res.json();
-        throw `Server responded with status ${res.status}`;
-      })
-      .then((json: unknown) => {
-        if (json) {
-          this.exerciseInfo = json as ExerciseInfo;
-        }
-      })
-      .catch((err) => console.log("Failed to get exercise data:", err));
+  constructor() {
+    super("log:model");
+  }
+
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+    if (name === "ref" && oldValue !== newValue && newValue) {
+      this.dispatchMessage(["exercise/select", { ref: newValue }]);
+    }
   }
 
   render(): TemplateResult {
@@ -85,7 +69,7 @@ export class ExerciseViewElement extends LitElement {
                 ${images.map(
                   (image) =>
                     html`<img
-                      src=${image}
+                      src="${image}"
                       style="width: 400px; height: auto"
                     />`
                 )}

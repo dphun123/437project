@@ -6,6 +6,7 @@ export default {
       "/api": "http://localhost:3000",
       "/auth": "http://localhost:3000",
       "/images": "http://localhost:3000",
+      "/test": "http://localhost:3000",
     },
   },
   build: {

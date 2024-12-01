@@ -41,9 +41,6 @@ export class LoginFormElement extends LitElement {
   render() {
     return html`
       <form @submit=${this.handleSubmit}>
-        <slot name="title">
-          <h3>Sign in with Username and Password</h3>
-        </slot>
         <label>
           <span>
             <slot name="username">Username</slot>
@@ -64,6 +61,44 @@ export class LoginFormElement extends LitElement {
   }
 
   static styles = css`
-    /* TODO: Style the header here */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    span {
+      color: var(--color-text);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--color-link);
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    }
+
+    button {
+      padding: 0.75rem;
+      background-color: var(--color-background-header);
+      color: var(--color-background-page);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: var(--color-link);
+    }
   `;
 }
