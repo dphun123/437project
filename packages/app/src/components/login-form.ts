@@ -1,4 +1,5 @@
 import { LitElement, css, html } from "lit";
+import { property } from "lit/decorators.js";
 
 function submitLoginForm(event: Event, endpoint: string, redirect: string) {
   event.preventDefault();
@@ -12,9 +13,8 @@ function submitLoginForm(event: Event, endpoint: string, redirect: string) {
 
   fetch(endpoint, { method, headers, body })
     .then((res) => {
-      if (res.status !== 200)
-        throw `Form submission failed: Status ${res.status}`;
-      return res.json();
+      if (res.status === 200 || res.status === 201) return res.json();
+      throw `Form submission failed: Status ${res.status}`;
     })
     .then((payload) => {
       const { token } = payload;
@@ -31,6 +31,9 @@ function submitLoginForm(event: Event, endpoint: string, redirect: string) {
 }
 
 export class LoginFormElement extends LitElement {
+  @property()
+  type?: string;
+
   handleSubmit(event: Event) {
     const endpoint = this.getAttribute("api");
     const redirect = this.getAttribute("redirect") || "/";
@@ -54,7 +57,9 @@ export class LoginFormElement extends LitElement {
           <input type="password" name="password" />
         </label>
         <slot name="submit">
-          <button type="submit">Sign In</button>
+          <button type="submit">
+            ${this.type === "login" ? "Sign In" : "Register"}
+          </button>
         </slot>
       </form>
     `;
