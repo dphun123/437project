@@ -7,18 +7,32 @@ import { HeaderElement } from "./components/my-header";
 import { LoginFormElement } from "./components/login-form";
 import { LogViewElement } from "./views/log-view";
 import { ExerciseViewElement } from "./views/exercise-view";
+import { RoutineViewElement } from "./views/routine-view";
 
 const routes: Switch.Route[] = [
   {
     path: "/app/exercise/:ref",
     view: (params: Switch.Params) => html`
-      <exercise-view ref=${params.ref}></exercise-view>
+      <exercise-view exerciseRef=${params.ref}></exercise-view>
     `,
   },
   {
     auth: "protected",
+    path: "/app/routine/:name",
+    view: (params: Switch.Params) => html`
+      <log-view name=${params.name}></log-view>
+    `,
+  },
+  {
+    auth: "protected",
+    path: "/app/routine",
+    view: () => html` <routine-view></routine-view>`,
+  },
+  {
+    // TODO: add a home view
+    auth: "protected",
     path: "/app",
-    view: () => html` <log-view></log-view> `,
+    view: () => html` <home-view></home-view> `,
   },
   {
     path: "/",
@@ -43,4 +57,5 @@ define({
   "login-form": LoginFormElement,
   "log-view": LogViewElement,
   "exercise-view": ExerciseViewElement,
+  "routine-view": RoutineViewElement,
 });

@@ -26,30 +26,32 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var entries_exports = {};
-__export(entries_exports, {
-  default: () => entries_default
+var workouts_exports = {};
+__export(workouts_exports, {
+  default: () => workouts_default
 });
-module.exports = __toCommonJS(entries_exports);
+module.exports = __toCommonJS(workouts_exports);
 var import_express = __toESM(require("express"));
-var import_entry_svc = __toESM(require("../services/entry-svc"));
+var import_workout_svc = __toESM(require("../services/workout-svc"));
 const router = import_express.default.Router();
 router.get("/:_id", (req, res) => {
   const { _id } = req.params;
-  import_entry_svc.default.get(_id).then((entry) => {
-    if (!entry) {
-      return res.status(404).send(`No entry with id '${_id}' found.`);
+  import_workout_svc.default.get(_id).then((workout) => {
+    if (!workout) {
+      return res.status(404).send(`No workout with id '${_id}' found.`);
     }
-    res.json(entry);
+    res.json(workout);
   }).catch((err) => res.status(404).send(err));
-});
-router.post("/", (req, res) => {
-  const newEntry = req.body;
-  import_entry_svc.default.create(newEntry).then((entry) => res.status(201).json(entry)).catch((err) => res.status(500).send(err));
 });
 router.put("/:_id", (req, res) => {
   const { _id } = req.params;
-  const newEntry = req.body;
-  import_entry_svc.default.update(_id, newEntry).then((entry) => res.json(entry)).catch((err) => res.status(404).end());
+  const newWorkout = req.body;
+  import_workout_svc.default.update(_id, newWorkout).then((workout) => res.json(workout)).catch((err) => res.status(404).end());
 });
-var entries_default = router;
+router.put("/addEntry/:exercise_name/:_id", (req, res) => {
+  const { _id, exercise_name } = req.params;
+  const { entryId } = req.body;
+  console.log("HERE");
+  import_workout_svc.default.addEntry(_id, exercise_name, entryId).then((workout) => res.json(workout)).catch((err) => res.status(404).end());
+});
+var workouts_default = router;

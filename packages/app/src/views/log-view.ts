@@ -1,95 +1,91 @@
-import { Auth, Observer } from "@calpoly/mustang";
-import { css, html, LitElement } from "lit";
-import { state } from "lit/decorators.js";
-// import { Routine, Workout, Exercise } from "server/models";
+import { define, View } from "@calpoly/mustang";
+import { css, html } from "lit";
+import { property, state } from "lit/decorators.js";
+import { Routine, Exercise } from "server/models";
+import { Msg } from "../messages";
+import { Model } from "../model";
 import reset from "../styles/reset.css";
-// import { EntryElement } from "../components/exercise-entry";
+import { EntryElement } from "../components/exercise-entry";
 
-export class LogViewElement extends LitElement {
-  // static uses = define({
-  //   "exercise-entry": EntryElement,
-  // });
-  // src = "/api/routine";
+export class LogViewElement extends View<Model, Msg> {
+  static uses = define({
+    "exercise-entry": EntryElement,
+  });
+
+  @property({ attribute: "name", reflect: true })
+  name = "";
+
+  @property({ attribute: "user-id", reflect: true })
+  userid = "";
 
   @state()
-  // routine = ;
-  _authObserver = new Observer<Auth.Model>(this, "log:auth");
+  get routine(): Routine | undefined {
+    return this.model.routine;
+  }
 
-  _user = new Auth.User();
+  constructor() {
+    super("log:model");
+  }
 
-  connectedCallback() {
-    super.connectedCallback();
-    this._authObserver.observe(({ user }) => {
-      if (user) {
-        this._user = user;
-      }
-      // this.hydrate(this.src);
-    });
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+    if (name === "name" && oldValue !== newValue && newValue) {
+      this.dispatchMessage([
+        "routine/select",
+        { username: this.userid, name: newValue },
+      ]);
+    }
   }
 
   render() {
-    const routine: [string, string, { name: string; ref: string }[]][] = [
-      [
-        "legs",
-        "Legs",
-        [
-          { name: "Squat", ref: "squat" },
-          { name: "Leg Press", ref: "leg-press" },
-          { name: "Glute-Ham Raise", ref: "ghr" },
-          { name: "Leg Extension", ref: "leg-extension" },
-          { name: "Leg Curl", ref: "leg-curl" },
-        ],
-      ],
-      ["push", "Push", [{ name: "Bench Press", ref: "bench-press" }]],
-      ["pull", "Pull", [{ name: "Pull-up", ref: "pull-up" }]],
-    ];
-    const log = routine.map(([ref, title, exercises]) =>
-      this.renderWorkout([ref, title, exercises])
-    );
-
+    const { workouts = [] } = this.routine || {};
+    if (!workouts || workouts.length === 0) {
+      return;
+    }
+    const log = workouts.map(({ _id, name, exercises }) => {
+      if (!_id) return;
+      return this.renderWorkout([_id.toString(), name, exercises]);
+    });
     return html`
+      <style>
+        main.page {
+          --page-grids: ${workouts.length};
+        }
+      </style>
       <main class="page">
         <section class="log">${log}</section>
       </main>
     `;
   }
 
-  renderWorkout([ref, title, exercises]: [
-    string,
-    string,
-    { name: string; ref: string }[]
-  ]) {
+  renderWorkout([_id, name, exercises]: [string, string, Exercise[]]) {
     return html`
       <section class="workout">
         <h2>
-          <a href="/workout/${ref}.html">${title}</a>
+          <span>${name}</span>
+          <!-- TODO: set up icons -->
           <svg class="icon">
-            <use href="/icons/workouts.svg#icon-${ref}" />
+            <use
+              href="/icons/workouts.svg#icon-${name === "Upper"
+                ? "push"
+                : name === "Lower"
+                ? "legs"
+                : name.toLowerCase()}"
+            />
           </svg>
         </h2>
         <section class="exercises">
           <dl>
-            ${exercises.map(
-              (exercise) =>
+            ${exercises?.map(
+              ({ exercise_ref, exercise_name }) =>
                 html`
-                  <!-- <exercise-entry
-                    src="/api/entry/exercise/${exercise.ref}"
-                    ref=${exercise.ref}
-                  >
-                    ${exercise.name}
-                  </exercise-entry> -->
-                  <section class="exercise">
-                    <dt>
-                      <a href="/app/exercise/${exercise.ref}"
-                        ><slot>${exercise.name}</slot></a
-                      >
-                    </dt>
-                    <dd>
-                      <ul>
-                        <slot name="entries">No entries yet</slot>
-                      </ul>
-                    </dd>
-                  </section>
+                  <exercise-entry
+                    .routine=${this.routine}
+                    workoutId=${_id}
+                    workoutName=${name}
+                    exerciseName=${exercise_name}
+                    exerciseRef=${exercise_ref}
+                  />
                 `
             )}
           </dl>
@@ -97,23 +93,6 @@ export class LogViewElement extends LitElement {
       </section>
     `;
   }
-
-  // hydrate(url: string) {
-  //   fetch(url, {
-  //     headers: Auth.headers(this._user),
-  //   })
-  //     .then((res: Response) => {
-  //       if (res.status === 200) return res.json();
-  //       throw `Server responded with status ${res.status}`;
-  //     })
-  //     .then((json: unknown) => {
-  //       if (json) {
-  //         const { tours } = json as { data: Array<Tour> };
-  //         this.tourIndex = tours;
-  //       }
-  //     })
-  //     .catch((err) => console.log("Failed to tour data:", err));
-  // }
 
   static styles = [
     reset.styles,
@@ -143,7 +122,7 @@ export class LogViewElement extends LitElement {
         margin: 0 var(--size-spacing-large) var(--size-spacing-large)
           var(--size-spacing-large);
       }
-      a {
+      span {
         color: var(--color-link);
       }
       svg.icon {
@@ -155,7 +134,6 @@ export class LogViewElement extends LitElement {
       }
 
       main.page {
-        --page-grids: 3;
         display: grid;
         grid-template-columns: [start] repeat(var(--page-grids), 1fr) [end];
         column-gap: var(--size-spacing-medium);
@@ -181,7 +159,7 @@ export class LogViewElement extends LitElement {
           display: grid;
           grid-template-columns: [start] repeat(var(--page-grids), 1fr) [end];
 
-          > exercise-entries {
+          > exercise-entry {
             border: var(--size-border) solid var(--color-accent);
             border-top: none;
             padding: var(--size-spacing-medium);

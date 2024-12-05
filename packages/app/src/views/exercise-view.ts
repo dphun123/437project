@@ -1,5 +1,5 @@
 import { View } from "@calpoly/mustang";
-import { css, html, TemplateResult } from "lit";
+import { css, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ExerciseInfo } from "server/models";
 import { Msg } from "../messages";
@@ -8,7 +8,7 @@ import reset from "../styles/reset.css";
 
 export class ExerciseViewElement extends View<Model, Msg> {
   @property()
-  ref?: string;
+  exerciseRef?: string;
 
   @state()
   get exerciseInfo(): ExerciseInfo | undefined {
@@ -21,12 +21,12 @@ export class ExerciseViewElement extends View<Model, Msg> {
 
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     super.attributeChangedCallback(name, oldValue, newValue);
-    if (name === "ref" && oldValue !== newValue && newValue) {
+    if (name === "exerciseRef" && oldValue !== newValue && newValue) {
       this.dispatchMessage(["exercise/select", { ref: newValue }]);
     }
   }
 
-  render(): TemplateResult {
+  render() {
     const {
       name,
       description,

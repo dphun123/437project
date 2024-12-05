@@ -2,20 +2,19 @@ import { ObjectId } from "mongoose";
 import { Entry } from "./entry";
 
 export interface Workout {
-  _id: ObjectId;
+  _id: ObjectId | undefined;
   name: string;
-  order: number;
-  replacement: Replacement | null;
-  routine: ObjectId;
+  order: number | undefined;
+  // replacement: Replacement | null;
   exercises: Array<Exercise>;
 }
 
-interface Replacement {
+export interface Replacement {
   week: number;
   day: number;
 }
 
-interface Exercise {
+export interface Exercise {
   exercise_ref: string;
   exercise_name: string;
   entries: Array<Entry>;

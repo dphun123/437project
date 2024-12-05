@@ -78,7 +78,7 @@ function authenticateUser(req, res, next) {
   } else {
     import_jsonwebtoken.default.verify(token, TOKEN_SECRET, (error, decoded) => {
       if (decoded) {
-        req.user = decoded.username;
+        req.username = decoded.username;
         next();
       } else res.status(403).end();
     });

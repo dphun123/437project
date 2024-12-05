@@ -26,30 +26,38 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var entries_exports = {};
-__export(entries_exports, {
-  default: () => entries_default
+var routines_exports = {};
+__export(routines_exports, {
+  default: () => routines_default
 });
-module.exports = __toCommonJS(entries_exports);
+module.exports = __toCommonJS(routines_exports);
 var import_express = __toESM(require("express"));
-var import_entry_svc = __toESM(require("../services/entry-svc"));
+var import_routine_svc = __toESM(require("../services/routine-svc"));
 const router = import_express.default.Router();
-router.get("/:_id", (req, res) => {
-  const { _id } = req.params;
-  import_entry_svc.default.get(_id).then((entry) => {
-    if (!entry) {
-      return res.status(404).send(`No entry with id '${_id}' found.`);
+router.get("/:username", (req, res) => {
+  const { username } = req.params;
+  import_routine_svc.default.getAllNames(username).then((list) => res.json(list)).catch((err) => res.status(500).send(err));
+});
+router.get("/:username/:name", (req, res) => {
+  const { username, name } = req.params;
+  import_routine_svc.default.getByName(username, name).then((routine) => {
+    if (!routine) {
+      return res.status(404).send(`No routine called '${name}' by ${username} found.`);
     }
-    res.json(entry);
+    res.json(routine);
   }).catch((err) => res.status(404).send(err));
 });
 router.post("/", (req, res) => {
-  const newEntry = req.body;
-  import_entry_svc.default.create(newEntry).then((entry) => res.status(201).json(entry)).catch((err) => res.status(500).send(err));
+  const newRoutine = req.body;
+  import_routine_svc.default.create(newRoutine).then((routine) => res.status(201).json(routine)).catch((err) => res.status(500).send(err));
 });
 router.put("/:_id", (req, res) => {
   const { _id } = req.params;
-  const newEntry = req.body;
-  import_entry_svc.default.update(_id, newEntry).then((entry) => res.json(entry)).catch((err) => res.status(404).end());
+  const newRoutine = req.body;
+  import_routine_svc.default.update(_id, newRoutine).then((routine) => res.json(routine)).catch((err) => res.status(404).end());
 });
-var entries_default = router;
+router.delete("/:name", (req, res) => {
+  const { name } = req.params;
+  import_routine_svc.default.remove(name).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
+});
+var routines_default = router;

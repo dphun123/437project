@@ -54,11 +54,6 @@ function saveFile(req, res) {
 }
 function getFile(req, res) {
   const { id } = req.params;
-  import_promises.default.readdir(IMAGES).then((files) => {
-    console.log("Files in directory:", files);
-  }).catch((error) => {
-    console.error("Error reading directory:", error);
-  });
   import_promises.default.readFile(`${IMAGES}/${id}`).then((buf) => {
     res.send(buf);
   }).catch((error) => {

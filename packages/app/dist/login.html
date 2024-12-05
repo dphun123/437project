@@ -13,38 +13,33 @@
     <link rel="stylesheet" href="/styles/page.css" />
     <style>
       .page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         height: 100vh;
-        grid-template-rows: 1fr fit-content(1fr) 1fr;
       }
-      main.card {
-        align-self: center;
-        grid-column: 3 / span 4;
+      section {
+        width: 60%;
+        max-width: 600px;
       }
-      h2 {
-        grid-column: start / end;
-        align-self: end;
-      }
-      p {
-        grid-column: 2 / -2;
+      .register {
+        display: block;
         text-align: center;
+        margin-top: 1rem;
       }
     </style>
-    <script type="module" crossorigin src="/assets/main-p290FGcM.js"></script>
+    <script type="module" crossorigin src="/assets/main-D7QcwG88.js"></script>
   </head>
-  <body class="page">
-    <mu-auth>
-        <main class="card">
-          <section>
-            <login-form api="/auth/login">
-              <h3 slot="title">Sign in and go places!</h3>
-            </login-form>
-            <p class="register">
-              Or did you want to
-              <a href="./register.html"> register as a new user </a>
-              ?
-            </p>
-          </section>
-        </main>
+  <body>
+    <mu-auth provides="log:auth">
+      <article class="page">
+        <section>
+          <login-form api="/auth/login"> </login-form>
+          <p class="register">
+            Or did you want to
+            <a href="./register.html"> register as a new user</a>?
+          </p>
+        </section>
       </article>
     </mu-auth>
   </body>

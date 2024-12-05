@@ -22,18 +22,15 @@ __export(entry_svc_exports, {
 });
 module.exports = __toCommonJS(entry_svc_exports);
 var import_mongoose = require("mongoose");
+const SetSchema = new import_mongoose.Schema({
+  weight: { type: Number, required: true },
+  repetitions: { type: Number, required: true }
+});
 const EntrySchema = new import_mongoose.Schema(
   {
-    username: String,
-    exercise_ref: { type: String, required: true },
-    exercise_name: { type: String, required: true },
     date_added: { type: Date, required: true, default: Date.now },
-    sets: [
-      {
-        weight: { type: Number, required: true },
-        repetitions: { type: Number, required: true }
-      }
-    ],
+    week: Number,
+    sets: [SetSchema],
     comment: String,
     last_modified: { type: Date, default: Date.now }
   },
@@ -43,14 +40,9 @@ const EntryModel = (0, import_mongoose.model)("Entry", EntrySchema);
 function index() {
   return EntryModel.find();
 }
-function getEntriesByExercise(username, exercise_ref) {
-  return EntryModel.find({ username, exercise_ref }).then((entries) => entries).catch((err) => {
-    throw `$No entries for ${exercise_ref} found.`;
-  });
-}
-function getEntryById(_id) {
+function get(_id) {
   return EntryModel.findOne({ _id }).then((entry) => entry).catch((err) => {
-    throw `$No entry with id ${_id} found.`;
+    throw `No entry with id ${_id} found.`;
   });
 }
 function create(json) {
@@ -61,7 +53,7 @@ function update(_id, entry) {
   return EntryModel.findOneAndUpdate({ _id }, entry, {
     new: true
   }).then((updated) => {
-    if (!updated) throw `$Entry {_id} not updated.`;
+    if (!updated) throw `Entry {_id} not updated.`;
     else return updated;
   });
 }
@@ -72,8 +64,7 @@ function remove(_id) {
 }
 var entry_svc_default = {
   index,
-  getEntriesByExercise,
-  getEntryById,
+  get,
   create,
   update,
   remove
