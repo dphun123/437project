@@ -8,7 +8,7 @@ import reset from "../styles/reset.css";
 
 export class ExerciseViewElement extends View<Model, Msg> {
   @property()
-  exerciseRef?: string;
+  exerciseref?: string;
 
   @state()
   get exerciseInfo(): ExerciseInfo | undefined {
@@ -21,7 +21,7 @@ export class ExerciseViewElement extends View<Model, Msg> {
 
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     super.attributeChangedCallback(name, oldValue, newValue);
-    if (name === "exerciseRef" && oldValue !== newValue && newValue) {
+    if (name === "exerciseref" && oldValue !== newValue && newValue) {
       this.dispatchMessage(["exercise/select", { ref: newValue }]);
     }
   }
