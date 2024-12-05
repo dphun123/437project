@@ -590,16 +590,16 @@ Expecting `+Rt.join(", ")+", got '"+(this.terminals_[x]||x)+"'":Qt="Parse error 
         <thead>
           <tr>
             <th>Set</th>
-            <th>Reps</th>
             <th>Weight</th>
+            <th>Reps</th>
           </tr>
         </thead>
         <tbody>
           ${t==null?void 0:t.map((e,s)=>y`
               <tr @click=${()=>this.startEditingSet(s)}>
                 <td>${s+1}</td>
-                <td>${e.repetitions}</td>
                 <td>${e.weight}</td>
+                <td>${e.repetitions}</td>
               </tr>
             `)}
           ${this.isAddingSet||this.editingSetIndex!==null?y`
@@ -610,18 +610,18 @@ Expecting `+Rt.join(", ")+", got '"+(this.terminals_[x]||x)+"'":Qt="Parse error 
                   <td>
                     <input
                       type="number"
-                      id="new-reps"
-                      placeholder="Reps"
-                      .value=${this.editingSetIndex!==null?t[this.editingSetIndex].repetitions.toString():""}
+                      id="new-weight"
+                      placeholder="Weight"
+                      .value=${this.editingSetIndex!==null?t[this.editingSetIndex].weight.toString():""}
                       @keydown=${this.handleInputKeyDown}
                     />
                   </td>
                   <td>
                     <input
                       type="number"
-                      id="new-weight"
-                      placeholder="Weight"
-                      .value=${this.editingSetIndex!==null?t[this.editingSetIndex].weight.toString():""}
+                      id="new-reps"
+                      placeholder="Reps"
+                      .value=${this.editingSetIndex!==null?t[this.editingSetIndex].repetitions.toString():""}
                       @keydown=${this.handleInputKeyDown}
                     />
                   </td>
@@ -643,7 +643,7 @@ Expecting `+Rt.join(", ")+", got '"+(this.terminals_[x]||x)+"'":Qt="Parse error 
               `}
         </tbody>
       </table>
-    `}startEditingSet(t){this.isAddingSet=!0,this.editingSetIndex=t,setTimeout(()=>{var i,n;const e=(i=this.shadowRoot)==null?void 0:i.getElementById("new-reps"),s=(n=this.shadowRoot)==null?void 0:n.getElementById("new-weight");e==null||e.addEventListener("blur",this.handleInputBlur),s==null||s.addEventListener("blur",this.handleInputBlur),e==null||e.addEventListener("focus",this.handleInputFocus),s==null||s.addEventListener("focus",this.handleInputFocus),e==null||e.focus()},0)}startAddingSet(){this.isAddingSet=!0,this.editingSetIndex=null,setTimeout(()=>{var s,i;const t=(s=this.shadowRoot)==null?void 0:s.getElementById("new-reps"),e=(i=this.shadowRoot)==null?void 0:i.getElementById("new-weight");t==null||t.addEventListener("blur",this.handleInputBlur),e==null||e.addEventListener("blur",this.handleInputBlur),t==null||t.addEventListener("focus",this.handleInputFocus),e==null||e.addEventListener("focus",this.handleInputFocus),t==null||t.focus()},0)}handleInputKeyDown(t){t.key==="Enter"?this.saveNewSet():t.key==="Escape"&&this.cancelAddSet()}cancelAddSet(){var s,i;const t=(s=this.shadowRoot)==null?void 0:s.getElementById("new-reps"),e=(i=this.shadowRoot)==null?void 0:i.getElementById("new-weight");t==null||t.removeEventListener("blur",this.handleInputBlur),e==null||e.removeEventListener("blur",this.handleInputBlur),t==null||t.removeEventListener("focus",this.handleInputFocus),e==null||e.removeEventListener("focus",this.handleInputFocus),t&&(t.value=""),e&&(e.value=""),this.isAddingSet=!1,this.editingSetIndex=null}saveNewSet(){var n,o,l,a;const t=(n=this.shadowRoot)==null?void 0:n.getElementById("new-reps"),e=(o=this.shadowRoot)==null?void 0:o.getElementById("new-weight");t==null||t.removeEventListener("blur",this.handleInputBlur),e==null||e.removeEventListener("blur",this.handleInputBlur),t==null||t.removeEventListener("focus",this.handleInputFocus),e==null||e.removeEventListener("focus",this.handleInputFocus);const s=parseInt(t.value),i=parseFloat(e.value);!isNaN(s)&&!isNaN(i)&&(this.editingSetIndex!==null?(l=this.entry)!=null&&l.sets&&(this.entry.sets[this.editingSetIndex]={repetitions:s,weight:i}):(a=this.entry)==null||a.sets.push({repetitions:s,weight:i}),this.saveEntry(),this.isAddingSet=!1,this.editingSetIndex=null)}renderComment(t){return y`
+    `}startEditingSet(t){this.isAddingSet=!0,this.editingSetIndex=t,setTimeout(()=>{var i,n;const e=(i=this.shadowRoot)==null?void 0:i.getElementById("new-reps"),s=(n=this.shadowRoot)==null?void 0:n.getElementById("new-weight");e==null||e.addEventListener("blur",this.handleInputBlur),s==null||s.addEventListener("blur",this.handleInputBlur),e==null||e.addEventListener("focus",this.handleInputFocus),s==null||s.addEventListener("focus",this.handleInputFocus),s==null||s.focus()},0)}startAddingSet(){this.isAddingSet=!0,this.editingSetIndex=null,setTimeout(()=>{var s,i;const t=(s=this.shadowRoot)==null?void 0:s.getElementById("new-reps"),e=(i=this.shadowRoot)==null?void 0:i.getElementById("new-weight");t==null||t.addEventListener("blur",this.handleInputBlur),e==null||e.addEventListener("blur",this.handleInputBlur),t==null||t.addEventListener("focus",this.handleInputFocus),e==null||e.addEventListener("focus",this.handleInputFocus),e==null||e.focus()},0)}handleInputKeyDown(t){t.key==="Enter"?this.saveNewSet():t.key==="Escape"&&this.cancelAddSet()}cancelAddSet(){var s,i;const t=(s=this.shadowRoot)==null?void 0:s.getElementById("new-reps"),e=(i=this.shadowRoot)==null?void 0:i.getElementById("new-weight");t==null||t.removeEventListener("blur",this.handleInputBlur),e==null||e.removeEventListener("blur",this.handleInputBlur),t==null||t.removeEventListener("focus",this.handleInputFocus),e==null||e.removeEventListener("focus",this.handleInputFocus),t&&(t.value=""),e&&(e.value=""),this.isAddingSet=!1,this.editingSetIndex=null}saveNewSet(){var n,o,l,a;const t=(n=this.shadowRoot)==null?void 0:n.getElementById("new-reps"),e=(o=this.shadowRoot)==null?void 0:o.getElementById("new-weight");t==null||t.removeEventListener("blur",this.handleInputBlur),e==null||e.removeEventListener("blur",this.handleInputBlur),t==null||t.removeEventListener("focus",this.handleInputFocus),e==null||e.removeEventListener("focus",this.handleInputFocus);const s=parseInt(t.value),i=parseFloat(e.value);!isNaN(s)&&!isNaN(i)&&(this.editingSetIndex!==null?(l=this.entry)!=null&&l.sets&&(s===0?this.entry.sets.splice(this.editingSetIndex,1):this.entry.sets[this.editingSetIndex]={repetitions:s,weight:i}):s!==0&&((a=this.entry)==null||a.sets.push({repetitions:s,weight:i})),this.saveEntry(),this.isAddingSet=!1,this.editingSetIndex=null)}renderComment(t){return y`
       <div class="comment-container">
         <button class="comment-button" @click=${this.toggleCommentEdit}>
           <svg viewBox="0 0 24 24" class="icon ${t?"filled":""}">
