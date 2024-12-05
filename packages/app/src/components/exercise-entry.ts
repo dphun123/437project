@@ -107,8 +107,8 @@ export class EntryElement extends View<Model, Msg> {
         <thead>
           <tr>
             <th>Set</th>
-            <th>Reps</th>
             <th>Weight</th>
+            <th>Reps</th>
           </tr>
         </thead>
         <tbody>
@@ -116,8 +116,8 @@ export class EntryElement extends View<Model, Msg> {
             (set, index) => html`
               <tr @click=${() => this.startEditingSet(index)}>
                 <td>${index + 1}</td>
-                <td>${set.repetitions}</td>
                 <td>${set.weight}</td>
+                <td>${set.repetitions}</td>
               </tr>
             `
           )}
@@ -134,10 +134,10 @@ export class EntryElement extends View<Model, Msg> {
                   <td>
                     <input
                       type="number"
-                      id="new-reps"
-                      placeholder="Reps"
+                      id="new-weight"
+                      placeholder="Weight"
                       .value=${this.editingSetIndex !== null
-                        ? sets[this.editingSetIndex].repetitions.toString()
+                        ? sets[this.editingSetIndex].weight.toString()
                         : ""}
                       @keydown=${this.handleInputKeyDown}
                     />
@@ -145,10 +145,10 @@ export class EntryElement extends View<Model, Msg> {
                   <td>
                     <input
                       type="number"
-                      id="new-weight"
-                      placeholder="Weight"
+                      id="new-reps"
+                      placeholder="Reps"
                       .value=${this.editingSetIndex !== null
-                        ? sets[this.editingSetIndex].weight.toString()
+                        ? sets[this.editingSetIndex].repetitions.toString()
                         : ""}
                       @keydown=${this.handleInputKeyDown}
                     />
@@ -190,7 +190,7 @@ export class EntryElement extends View<Model, Msg> {
       weightInput?.addEventListener("blur", this.handleInputBlur);
       repsInput?.addEventListener("focus", this.handleInputFocus);
       weightInput?.addEventListener("focus", this.handleInputFocus);
-      repsInput?.focus();
+      weightInput?.focus();
     }, 0);
   }
 
@@ -210,7 +210,7 @@ export class EntryElement extends View<Model, Msg> {
       weightInput?.addEventListener("blur", this.handleInputBlur);
       repsInput?.addEventListener("focus", this.handleInputFocus);
       weightInput?.addEventListener("focus", this.handleInputFocus);
-      repsInput?.focus();
+      weightInput?.focus();
     }, 0);
   }
 
@@ -285,14 +285,20 @@ export class EntryElement extends View<Model, Msg> {
       if (this.editingSetIndex !== null) {
         // Editing existing set
         if (this.entry?.sets) {
-          this.entry.sets[this.editingSetIndex] = {
-            repetitions: reps,
-            weight: weight,
-          };
+          if (reps === 0) {
+            this.entry.sets.splice(this.editingSetIndex, 1);
+          } else {
+            this.entry.sets[this.editingSetIndex] = {
+              repetitions: reps,
+              weight: weight,
+            };
+          }
         }
       } else {
         // Adding new set
-        this.entry?.sets.push({ repetitions: reps, weight: weight });
+        if (!(reps === 0)) {
+          this.entry?.sets.push({ repetitions: reps, weight: weight });
+        }
       }
       this.saveEntry();
       this.isAddingSet = false;
