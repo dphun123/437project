@@ -4,11 +4,12 @@ const defaults = {
   stylesheets: ["/styles/reset.css", "/styles/tokens.css", "/styles/page.css"],
   styles: [],
   scripts: [
-    `import { define } from "@calpoly/mustang";
+    `import { define, Auth } from "@calpoly/mustang";
     import { HeaderElement } from "/scripts/header.js";
 
     define({
-      "my-header": HeaderElement
+      "my-header": HeaderElement,
+      "mu-auth": Auth.Provider
     });
 
     HeaderElement.initializeOnce();

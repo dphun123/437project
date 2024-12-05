@@ -1,16 +1,16 @@
-import { Schema, model, Types } from "mongoose";
-import { Entry } from "../models";
+import { Schema, model } from "mongoose";
+import { Entry, Set } from "../models";
+
+const SetSchema = new Schema<Set>({
+  weight: { type: Number, required: true },
+  repetitions: { type: Number, required: true },
+});
 
 const EntrySchema = new Schema<Entry>(
   {
-    exercise: { type: String, required: true },
     date_added: { type: Date, required: true, default: Date.now },
-    sets: [
-      {
-        weight: { type: Number, required: true },
-        repetitions: { type: Number, required: true },
-      },
-    ],
+    week: Number,
+    sets: [SetSchema],
     comment: String,
     last_modified: { type: Date, default: Date.now },
   },
@@ -23,11 +23,11 @@ function index(): Promise<Entry[]> {
   return EntryModel.find();
 }
 
-function get(exercise: String): Promise<Entry[] | null> {
-  return EntryModel.find({ exercise })
-    .then((entries) => entries)
+function get(_id: String): Promise<Entry | null> {
+  return EntryModel.findOne({ _id })
+    .then((entry) => entry)
     .catch((err) => {
-      throw `$No entries for {exercise} found.`;
+      throw `No entry with id ${_id} found.`;
     });
 }
 
@@ -40,7 +40,7 @@ function update(_id: String, entry: Entry): Promise<Entry> {
   return EntryModel.findOneAndUpdate({ _id }, entry, {
     new: true,
   }).then((updated) => {
-    if (!updated) throw `$Entry {_id} not updated.`;
+    if (!updated) throw `Entry {_id} not updated.`;
     else return updated as Entry;
   });
 }
@@ -51,4 +51,10 @@ function remove(_id: String): Promise<void> {
   });
 }
 
-export default { index, get, create, update, remove };
+export default {
+  index,
+  get,
+  create,
+  update,
+  remove,
+};

@@ -46,6 +46,7 @@ class LogPage {
       scripts: [
         `import { define } from "@calpoly/mustang";
       import { ExerciseEntriesElement } from "/scripts/exercise-entries.js";
+
       define({
         "exercise-entries": ExerciseEntriesElement,
       });
@@ -56,29 +57,28 @@ class LogPage {
   renderBody() {
     return import_server.html`
       <body class="page-grid">
-        <my-header>
-          <span slot="left">
-            <h1>PPL Routine</h1>
-          </span>
-          <span slot="right">
-            <p><a href="/user/dennis.html">Dennis</a>' Workout Log</p>
-          </span>
-        </my-header>
-        <section class="log">
-          ${this.renderWorkoutSection("legs", "Legs", [
-      { name: "Squat", link: "squat" },
-      { name: "Leg Press", link: "leg-press" },
-      { name: "Glute-Ham Raise", link: "ghr" },
-      { name: "Leg Extension", link: "leg-extension" },
-      { name: "Leg Curl", link: "leg-curl" }
+        <mu-auth provides="log:auth">
+          <my-header>
+            <span slot="left">
+              <h1>PPL Routine</h1>
+            </span>
+          </my-header>
+          <section class="log">
+            ${this.renderWorkoutSection("legs", "Legs", [
+      { name: "Squat", ref: "squat" },
+      { name: "Leg Press", ref: "leg-press" },
+      { name: "Glute-Ham Raise", ref: "ghr" },
+      { name: "Leg Extension", ref: "leg-extension" },
+      { name: "Leg Curl", ref: "leg-curl" }
     ])}
-          ${this.renderWorkoutSection("push", "Push", [
-      { name: "Bench Press", link: "bench-press" }
+            ${this.renderWorkoutSection("push", "Push", [
+      { name: "Bench Press", ref: "bench-press" }
     ])}
-          ${this.renderWorkoutSection("pull", "Pull", [
-      { name: "Pull-up", link: "pull-up" }
+            ${this.renderWorkoutSection("pull", "Pull", [
+      { name: "Pull-up", ref: "pull-up" }
     ])}
-        </section>
+          </section>
+        </mu-auth>
       </body>
     `;
   }
@@ -96,8 +96,8 @@ class LogPage {
             ${exercises.map(
       (exercise) => import_server.html`
                   <exercise-entries
-                    src="/api/entry/${exercise.link}"
-                    link=${exercise.link}
+                    src="/api/entry/exercise/${exercise.ref}"
+                    ref=${exercise.ref}
                   >
                     ${exercise.name}
                   </exercise-entries>

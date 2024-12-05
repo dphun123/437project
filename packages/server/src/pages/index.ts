@@ -1,2 +1,3 @@
-export * from "./exercise-info";
 export * from "./log";
+export * from "./entry";
+export * from "./exercise-info";

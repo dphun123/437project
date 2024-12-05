@@ -58,12 +58,14 @@ class ExerciseInfoPage {
     const api = `/api/exercise/${ref}`;
     return import_server.html`
       <body class="page-grid">
-        <my-header>
-          <span slot="left">
-            <a href="/workout/legs.html">&larr; Legs Workout</a>
-          </span>
-        </my-header>
-        <exercise-info src="${api}" />
+        <mu-auth provides="log:auth">
+          <my-header>
+            <span slot="left">
+              <a href="/workout/legs.html">&larr; Legs Workout</a>
+            </span>
+          </my-header>
+          <exercise-info src="${api}" />
+        </mu-auth>
       </body>
     `;
   }

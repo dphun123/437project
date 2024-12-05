@@ -34,16 +34,13 @@ module.exports = __toCommonJS(entries_exports);
 var import_express = __toESM(require("express"));
 var import_entry_svc = __toESM(require("../services/entry-svc"));
 const router = import_express.default.Router();
-router.get("/", (_, res) => {
-  import_entry_svc.default.index().then((list) => res.json(list)).catch((err) => res.status(500).send(err));
-});
-router.get("/:exercise", (req, res) => {
-  const { exercise } = req.params;
-  import_entry_svc.default.get(exercise).then((entries) => {
-    if (!entries || entries.length === 0) {
-      return res.status(404).send(`No entries for '${exercise}' found.`);
+router.get("/:_id", (req, res) => {
+  const { _id } = req.params;
+  import_entry_svc.default.get(_id).then((entry) => {
+    if (!entry) {
+      return res.status(404).send(`No entry with id '${_id}' found.`);
     }
-    res.json(entries);
+    res.json(entry);
   }).catch((err) => res.status(404).send(err));
 });
 router.post("/", (req, res) => {
@@ -54,9 +51,5 @@ router.put("/:_id", (req, res) => {
   const { _id } = req.params;
   const newEntry = req.body;
   import_entry_svc.default.update(_id, newEntry).then((entry) => res.json(entry)).catch((err) => res.status(404).end());
-});
-router.delete("/:_id", (req, res) => {
-  const { _id } = req.params;
-  import_entry_svc.default.remove(_id).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
 });
 var entries_default = router;

@@ -15,10 +15,14 @@ var __reExport = (target, mod, secondTarget) => (__copyProps(target, mod, "defau
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var models_exports = {};
 module.exports = __toCommonJS(models_exports);
+__reExport(models_exports, require("./routine"), module.exports);
+__reExport(models_exports, require("./workout"), module.exports);
 __reExport(models_exports, require("./exercise-info"), module.exports);
 __reExport(models_exports, require("./entry"), module.exports);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  ...require("./routine"),
+  ...require("./workout"),
   ...require("./exercise-info"),
   ...require("./entry")
 });

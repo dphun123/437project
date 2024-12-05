@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/reset.css" />
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/page.css" />
+    <style>
+      .page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      section {
+        width: 60%;
+        max-width: 600px;
+      }
+      .register {
+        display: block;
+        text-align: center;
+        margin-top: 1rem;
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/main-D7QcwG88.js"></script>
+  </head>
+  <body>
+    <mu-auth provides="log:auth">
+      <article class="page">
+        <section>
+          <login-form api="/auth/login"> </login-form>
+          <p class="register">
+            Or did you want to
+            <a href="./register.html"> register as a new user</a>?
+          </p>
+        </section>
+      </article>
+    </mu-auth>
+  </body>
+</html>
